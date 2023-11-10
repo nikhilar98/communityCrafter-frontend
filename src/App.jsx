@@ -8,6 +8,7 @@ function App() {
   return (
     <div>
        <nav>
+            <img src='./src/images/cmlogo6.png' alt="logo" style={{width:"150px"}}/>
             <Link to='/' className='Link'>Home</Link>
             <Link to='/register' className='Link'>Register</Link>
             <Link to='/login' className='Link'>Login</Link>

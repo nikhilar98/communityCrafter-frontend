@@ -48,7 +48,6 @@ export default function LoginForm() {
       <ThemeProvider theme={theme}>
         <Box backgroundColor="white" borderRadius="20px" padding="20px" width="500px" onSubmit={handleSubmit} component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }}} noValidate autoComplete="off">
           <h2>Login</h2>
-          
           <TextField color="customBlue" id="email" label="email" variant="filled" type='text' value={email} onChange={(e)=>{setEmail(e.target.value)}}/><br/>
           <TextField color="customBlue" id="password" label="password" variant="filled" type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}}/><br/>
           <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Login</Button>
