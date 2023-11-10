@@ -1,0 +1,31 @@
+nav { 
+    background-color:rgb(226, 225, 130);
+    padding:30px;
+    margin: 0;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.Link{
+    color:rgb(51, 102, 122);
+    text-decoration:none;
+    margin: 0px 20px;
+    font-weight: 500;
+}
+body{
+    margin:0;
+    font-family: 'Poppins', sans-serif;
+}
+.setBackgroundImage{
+    background-image:url("./src//images/original-d70f56c4e89c6ed97beb46db510c213d.jpg");
+    margin: 0;
+    padding: 0;
+    height:89vh;
+    opacity: 0.8;
+    z-index: 1;
+    background-size:cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
