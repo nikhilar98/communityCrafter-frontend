@@ -54,7 +54,7 @@ export default function RegistrationForm() {
       password:Yup.string().required('Password is required'),
       phone:Yup.string().required('Phone is required').length(10,'Phone must have 10 digits'),
       role:Yup.string().required('Role is required')
-  })
+    })
 
   const formik = useFormik({
       initialValues : {
@@ -67,7 +67,7 @@ export default function RegistrationForm() {
       validationSchema:userValidationSchema,
       validateOnChange:false,
       validateOnBlur:false,
-      onSubmit:async (values,{resetForm})=>{
+      onSubmit:async (values)=>{
         try{
           const response = await axios.post('/comcraft/register',values)
           navigate('/login',{state:{msg:response.data.msg}})
@@ -79,11 +79,6 @@ export default function RegistrationForm() {
           
       }
   })
-
-  // useEffect(()=>{
-  //     formik.setFieldValue('title',blog ? blog.title : '')
-  //     formik.setFieldValue('content',blog ? blog.content : '')
-  // },[])
 
     return (
       <ThemeProvider theme={theme}>
