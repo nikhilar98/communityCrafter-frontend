@@ -8,7 +8,6 @@ nav {
     position:sticky;
     top:0;
     z-index: 100;
-    height: 130px;
 }
 .Link{
     color:rgb(51, 102, 122);
@@ -32,4 +31,6 @@ body{
     align-items: center;
     justify-content: center;
 }
-
+.teachingCategoriesList{
+    list-style:none;
+}

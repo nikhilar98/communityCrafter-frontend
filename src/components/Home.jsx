@@ -1,10 +1,10 @@
 import { useContext } from "react"
-import { appContext } from "../App"
+import { userContext } from "../App"
 
 
 export default function Home(){ 
 
-    const {userState,userDispatch} = useContext(appContext)
+    const {userState,userDispatch} = useContext(userContext)
 
     return (
         

@@ -8,9 +8,11 @@ const userReducer = (state,action) => {
             return {...state,profileData:action.payload}
         }
         case 'LOGOUT_USER' : { 
-            return {...state,userDetails:{}}
+            return {...state,userDetails:{},profileData:{},userAddresses:[]}
         }
-
+        case 'SET_USER_ADDRESSES' : { 
+            return {...state,userAddresses:action.payload}
+        }
         default : return {...state}
     }
 }

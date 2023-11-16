@@ -8,24 +8,25 @@ import axios from '../axios/axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify';
-import { appContext } from '../App';
+import { userContext } from '../App';
+import theme from '../appTheme';
 
-const theme = createTheme({
-  palette: {
-    customYellow: {
-      main: 'rgb(226, 225, 130)',
-    },
-    customBlue: {
-      main: 'rgb(51, 102, 122)',
-    },
-  },
-});
+// const theme = createTheme({
+//   palette: {
+//     customYellow: {
+//       main: 'rgb(226, 225, 130)',
+//     },
+//     customBlue: {
+//       main: 'rgb(51, 102, 122)',
+//     },
+//   },
+// });
 
 export default function LoginForm() {
 
     const navigate = useNavigate()
     const [serverErrors,setServerErrors] = useState([])
-    const {userState,userDispatch} = useContext(appContext)
+    const {userState,userDispatch} = useContext(userContext)
 
     const notify = (msg) => toast.error(msg);
 
@@ -58,18 +59,20 @@ export default function LoginForm() {
               Authorization: localStorage.getItem('token')
             }
           })
-          const userProfile = await axios.get('/comcraft/getProfile',{
-            headers:{
-              Authorization: localStorage.getItem('token')
-            }
-          })
           userDispatch({type:'SET_USER',payload:userDetails.data})
-          userDispatch({type:'SET_USER_PROFILE',payload:userProfile.data})
-          console.log(userDetails.data)
+          if(userDetails.data.role=='commuityHead' || userDetails.data.role=='teacher'){
+            const userProfile = await axios.get('/comcraft/getProfile',{
+              headers:{
+                Authorization: localStorage.getItem('token')
+              }
+            })
+            userDispatch({type:'SET_USER_PROFILE',payload:userProfile.data})
+          }
           navigate('/')
           setServerErrors([])
         }
         catch(err){
+          console.log(err)
           setServerErrors(err.response.data.errors)
         }
           

@@ -1,12 +1,12 @@
 import { useContext } from "react"
-import { appContext } from "../App"
+import { userContext } from "../App"
 import {isEmpty} from 'lodash'
 import ProfileDisplay from "./ProfileDisplay"
 import ProfileForm from "./ProfileForm"
 
 export default function Profile() { 
 
-    const {userState} = useContext(appContext) 
+    const {userState} = useContext(userContext) 
 
     return ( 
         <div>

@@ -13,18 +13,18 @@ import { useState } from 'react';
 import axios from '../axios/axios';
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
+import theme from '../appTheme';
 
-
-const theme = createTheme({
-  palette: {
-    customYellow: {
-      main: 'rgb(226, 225, 130)',
-    },
-    customBlue: {
-      main: 'rgb(51, 102, 122)',
-    },
-  },
-});
+// const theme = createTheme({
+//   palette: {
+//     customYellow: {
+//       main: 'rgb(226, 225, 130)',
+//     },
+//     customBlue: {
+//       main: 'rgb(51, 102, 122)',
+//     },
+//   },
+// });
 
 export default function RegistrationForm() {
 
