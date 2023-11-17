@@ -68,6 +68,12 @@ export default function LoginForm() {
             })
             userDispatch({type:'SET_USER_PROFILE',payload:userProfile.data})
           }
+          const userAddresses = await axios.get('/comcraft/address',{
+            headers:{
+              Authorization: localStorage.getItem('token')
+            }
+          })
+          userDispatch({type:'SET_USER_ADDRESSES',payload:userAddresses.data})
           navigate('/')
           setServerErrors([])
         }

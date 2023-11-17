@@ -1,16 +1,19 @@
 import { useFormik } from "formik"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import * as Yup from 'yup'
 import { userContext } from "../App"
 import { ThemeProvider } from "@emotion/react"
-import { Box, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@mui/material"
+import { Box, Button, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@mui/material"
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import theme from "../appTheme"
+import axios from "../axios/axios"
+import { toast,ToastContainer } from "react-toastify"
+
 
 export default function ProfileForm() { 
 
@@ -19,8 +22,14 @@ export default function ProfileForm() {
     const [bio,setBio] = useState('')
     const [address,setAddress] = useState('')
     const [categoriesSelected,setCategoriesSelected] = useState([])
-
+    const [teachingCategories,setTeachingCategories] = useState([])
+    const [files,setFiles] = useState([])
+    
+    
+    console.log(address)
     console.log(categoriesSelected)
+
+    const notify = () => toast.success("Profile saved.");
 
     const categories= useSelector((state)=>{
         return state.categories
@@ -47,8 +56,52 @@ export default function ProfileForm() {
         );
       };
 
-    function handleSubmit() { 
+    useEffect(()=>{
+        const newState = categoriesSelected.map(ele=>{
+            return {categoryId:ele,experience:"",certificates:[]}
+        })
+        setTeachingCategories(newState)
+    },[categoriesSelected])
 
+    console.log("teachingCategories",teachingCategories)
+
+    function handleFileChange (event) { 
+            const name = event.target.name
+            const uploadedFiles = event.target.files
+            setFiles([...files,{name,uploadedFiles}])
+    }
+
+    console.log("files :",files)
+
+
+    async function handleSubmit(e) { 
+        e.preventDefault() 
+        const formData = new FormData() 
+
+        formData.append('bio',bio)
+        formData.append('address',address)
+        formData.append('teachingCategories',JSON.stringify(teachingCategories))
+        // teachingCategories.forEach((ele)=>{return formData.append('teachingCategories', JSON.stringify(ele))})
+        
+        files.forEach((obj)=>{
+              Object.values(obj.uploadedFiles).forEach((file)=>{
+                formData.append(obj.name,file)
+            })
+        })
+       
+        try{
+            const response = await axios.post('/comcraft/teacher/createProfile',formData,{
+                headers:{
+                    'Content-Type' : "multipart/form-data",
+                    Authorization : localStorage.getItem('token')
+                }
+            })
+            notify()
+        }
+        catch(err){
+            console.log(err)
+        }
+        
     }
 
     return ( 
@@ -64,7 +117,8 @@ export default function ProfileForm() {
             component="form" 
             sx={{'& > :not(style)': { m: 1, width: '25ch' }}} 
             noValidate 
-            autoComplete="off">
+            autoComplete="off"
+            encType="multipart/form-data">
 
                 <TextField color="customBlue" name="bio" id="bio" label="bio" variant="outlined" type='text' value={bio} onChange={(e)=>{setBio(e.target.value)}} multiline rows={6} helperText="Bio"/><br/>
 
@@ -80,11 +134,13 @@ export default function ProfileForm() {
                             >
                             {
                                userState.userAddresses.map(ele=>{
-                                    return <FormControlLabel key={ele._id} value={ele._id} control={<Radio />} label={`${ele.building}, ${ele.locality}, ${ele.city}, ${ele.state}, ${ele.country} - ${ele.pincode}`}/>
+                                    return <div key={ele._id}>
+                                        <FormControlLabel value={ele._id} control={<Radio />} label={`${ele.building}, ${ele.locality}, ${ele.city}, ${ele.state}, ${ele.country} - ${ele.pincode}`}/><hr/>
+                                        </div>
                                 })
                             }
                             </RadioGroup>
-                            {/* <FormHelperText>{(formik.errors.role && formik.errors.role)|| (serverErrors.find(ele=>ele.path=='role') && serverErrors.find(ele=>ele.path=='role').msg)}</FormHelperText> */}
+                            
                 </FormControl><br/>
 
                 <FormControl sx={{ m: 1, width: 300 }}>
@@ -113,26 +169,41 @@ export default function ProfileForm() {
                         </MenuItem>
                     ))}
                     </Select>
-                </FormControl>
+                </FormControl><br/>
 
                 {
                     categoriesSelected.map((ele,i)=>{
-                        return <fieldset>
-                            <h3>{ele.name}</h3>
-                            <form>
-                                <label htmlFor={`${ele._id}_exp`}>Add experience (in years)</label>
-                                <input type="number" id={`${ele._id}_exp`} /><br/>
-                                <label htmlFor={`${ele._id}_certificates`}>Add certificates</label>
-                                <input type="file" id={`${ele._id}_certificates`}/>
-                            </form>
+                        return <fieldset key={i} >
+                            {
+                                console.log(ele)
+                            }
+                            <h3>{categories.find(cat=>cat._id==ele)?.name}</h3>
+                                <label htmlFor={`${ele}_exp`}>Add experience (in years)</label>
+                                
+                                <input type="number" id={`${ele}_exp`} 
+                                    value={teachingCategories.find(el=>el.categoryId==ele.experience)} 
+                                    onChange={(e)=>{
+                                        const newState = teachingCategories.map(obj=>{
+                                        if(obj.categoryId==ele)
+                                            return {...obj,experience:e.target.value}
+                                        else
+                                            return {...obj}
+                                        })
+                                        setTeachingCategories(newState)
+                                    }}/>
+                                <br/>
+
+                                <label htmlFor={`${ele}_certificates`}>Add certificates</label>
+                                <input type="file" id={`${ele}_certificates`} name={ele} multiple value={undefined} onChange={handleFileChange} />
                         </fieldset>
                     })
                 }
 
             
-            
-            {/* <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Login</Button> */}
+            <Button id="save_profile" variant="contained" size='large' type='submit' color="customYellow">Save Profile</Button>
+
             </Box>
+            <ToastContainer/>
       </ThemeProvider>
         </div>
     )

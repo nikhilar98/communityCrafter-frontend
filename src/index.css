@@ -34,3 +34,6 @@ body{
 .teachingCategoriesList{
     list-style:none;
 }
+fieldset{
+    border-radius: 10px;
+}

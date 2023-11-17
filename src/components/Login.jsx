@@ -9,7 +9,7 @@ export default function Login(){
 
     const location = useLocation()
 
-    const notify = () => toast.success("Registered Successfully. Check your mail to Login!");
+    const notify = (msg) => toast.success(msg);
 
     function handleSubmit(e){
         e.preventDefault()
@@ -17,7 +17,7 @@ export default function Login(){
 
     useEffect(()=>{
         if(location.state){
-            notify()
+            notify(location.state.msg)
         }
     },[])
 
