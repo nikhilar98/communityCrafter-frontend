@@ -12,12 +12,12 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import theme from "../appTheme"
 import axios from "../axios/axios"
-import { toast,ToastContainer } from "react-toastify"
+import { Link } from "react-router-dom"
 
 
 export default function ProfileForm() { 
 
-    const {userState} = useContext(userContext)
+    const {userState,userDispatch} = useContext(userContext)
 
     const [bio,setBio] = useState('')
     const [address,setAddress] = useState('')
@@ -28,8 +28,7 @@ export default function ProfileForm() {
     
     console.log(address)
     console.log(categoriesSelected)
-
-    const notify = () => toast.success("Profile saved.");
+    console.log(files)
 
     const categories= useSelector((state)=>{
         return state.categories
@@ -56,22 +55,26 @@ export default function ProfileForm() {
         );
       };
 
-    useEffect(()=>{
-        const newState = categoriesSelected.map(ele=>{
-            return {categoryId:ele,experience:"",certificates:[]}
-        })
-        setTeachingCategories(newState)
-    },[categoriesSelected])
 
     console.log("teachingCategories",teachingCategories)
 
-    function handleFileChange (event) { 
+    const handleFileChange = (event) => { 
             const name = event.target.name
             const uploadedFiles = event.target.files
             setFiles([...files,{name,uploadedFiles}])
     }
 
-    console.log("files :",files)
+    const handleExperienceChange =  (e,categoryId) => { 
+        
+            const newState = teachingCategories.map(obj=>{
+                if(obj.categoryId==categoryId)
+                    return {...obj,experience:e.target.value}
+                else
+                    return {...obj}
+            })
+            setTeachingCategories(newState)
+        
+    }
 
 
     async function handleSubmit(e) { 
@@ -95,13 +98,28 @@ export default function ProfileForm() {
                     Authorization : localStorage.getItem('token')
                 }
             })
-            notify()
+            userDispatch({type:'SET_USER_PROFILE',payload:response.data})
+            console.log(response.data)
         }
         catch(err){
             console.log(err)
         }
         
     }
+
+    useEffect(()=>{
+        const newState = categoriesSelected.map(ele=>{
+            const alreadyPopulatedCategory = teachingCategories.find(cat=>cat.categoryId==ele)
+            if(alreadyPopulatedCategory){
+                return {...alreadyPopulatedCategory}
+            }
+            else{
+                return {categoryId:ele,experience:"",certificates:[]}
+            }
+           
+        })
+        setTeachingCategories(newState)
+    },[categoriesSelected])  //reason why experience is resetting to empry string when a new category is selected 
 
     return ( 
         <div>
@@ -141,6 +159,7 @@ export default function ProfileForm() {
                             </RadioGroup>
                             
                 </FormControl><br/>
+                or <Link to='/address'>Create new Address</Link><br/><br/><br/>
 
                 <FormControl sx={{ m: 1, width: 300 }}>
                     <InputLabel id="category-multiple-checkbox">Select a teaching field</InputLabel>
@@ -173,23 +192,12 @@ export default function ProfileForm() {
                 {
                     categoriesSelected.map((ele,i)=>{
                         return <fieldset key={i} >
-                            {
-                                console.log(ele)
-                            }
-                            <h3>{categories.find(cat=>cat._id==ele)?.name}</h3>
+                                <h3>{categories.find(cat=>cat._id==ele).name}</h3>
                                 <label htmlFor={`${ele}_exp`}>Add experience (in years)</label>
                                 
                                 <input type="number" id={`${ele}_exp`} 
-                                    value={teachingCategories.find(el=>el.categoryId==ele.experience)} 
-                                    onChange={(e)=>{
-                                        const newState = teachingCategories.map(obj=>{
-                                        if(obj.categoryId==ele)
-                                            return {...obj,experience:e.target.value}
-                                        else
-                                            return {...obj}
-                                        })
-                                        setTeachingCategories(newState)
-                                    }}/>
+                                    value={teachingCategories.find(el=>el.categoryId==ele)?.experience} 
+                                    onChange={(e)=>{handleExperienceChange(e,ele)}}/>
                                 <br/>
 
                                 <label htmlFor={`${ele}_certificates`}>Add certificates</label>

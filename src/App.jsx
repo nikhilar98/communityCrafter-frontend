@@ -8,6 +8,7 @@ import axios from './axios/axios'
 import Profile from './components/Profile'
 import { useDispatch } from 'react-redux'
 import { startSetCategories } from './actions/categoryActions'
+import AddressForm from './components/AddressForm'
 
 export const userContext = createContext()
 
@@ -27,34 +28,37 @@ export function App() {
   useEffect(()=>{   //get user details and app data on refresh if user is logged in already
     
     (async function(){
-      if(localStorage.getItem('token')){
-        try{
-          const userDetails = await axios.get('/comcraft/getAccount',{
-            headers:{
-              Authorization: localStorage.getItem('token')
-            }
-          })
-          userDispatch({type:'SET_USER',payload:userDetails.data})
-          if(userDetails.data.role=='commuityHead' || userDetails.data.role=='teacher'){
-            const userProfile = await axios.get('/comcraft/getProfile',{
+      try{
+          reduxDispatch(startSetCategories())
+          if(localStorage.getItem('token')){
+          
+            const userDetails = await axios.get('/comcraft/getAccount',{
               headers:{
                 Authorization: localStorage.getItem('token')
               }
             })
-            userDispatch({type:'SET_USER_PROFILE',payload:userProfile.data})
-          }
-          const userAddresses = await axios.get('/comcraft/address',{
-            headers:{
-              Authorization: localStorage.getItem('token')
+            userDispatch({type:'SET_USER',payload:userDetails.data})
+            if(userDetails.data.role=='commuityHead' || userDetails.data.role=='teacher'){
+              const userProfile = await axios.get('/comcraft/getProfile',{
+                headers:{
+                  Authorization: localStorage.getItem('token')
+                }
+              })
+              userDispatch({type:'SET_USER_PROFILE',payload:userProfile.data})
             }
-          })
-          userDispatch({type:'SET_USER_ADDRESSES',payload:userAddresses.data})
-          reduxDispatch(startSetCategories())
-        }
-        catch(err){
-          console.log(err)
+            const userAddresses = await axios.get('/comcraft/address',{
+              headers:{
+                Authorization: localStorage.getItem('token')
+              }
+            })
+            userDispatch({type:'SET_USER_ADDRESSES',payload:userAddresses.data})
+          
         }
       }
+      catch(err){
+        console.log(err)
+      }
+      
     })()
 
   },[])
@@ -69,7 +73,7 @@ export function App() {
                 Object.keys(userState.userDetails).length ?
                   <> 
                     <Link to='/' className='Link'>Home</Link>
-                    {['communityHead','teacher'].includes(userState.userDetails.role) && <Link to='/Profile' className='Link'>Profile</Link>}
+                    {['communityHead','teacher'].includes(userState.userDetails.role) && <Link to='/profile' className='Link'>Profile</Link>}
                     <Link to='/' className='Link' onClick={handleLogout}>Logout</Link>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" width='30px'>
                       <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
@@ -88,7 +92,8 @@ export function App() {
             <Route path='/' element={<Home/>}></Route>
             <Route path='/register' element={<Register/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
-            <Route path='/Profile'element={<Profile/>}></Route>
+            <Route path='/profile'element={<Profile/>}></Route>
+            <Route path='/address' element={<AddressForm/>}></Route>
         </Routes>
       </div>
     </userContext.Provider>

@@ -46,7 +46,7 @@ export default function ProfileDisplay() {
                                             return <CardMedia
                                                     key={ele._id}
                                                     component="img"
-                                                    sx={{width:"500px",margin:"10px"}}
+                                                    sx={{width:"250px",margin:"10px"}}
                                                     src={ele.url}
                                                     alt={`certificate-${i+1}`}
                                                     />
