@@ -15,39 +15,12 @@ import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import theme from '../appTheme';
 
-// const theme = createTheme({
-//   palette: {
-//     customYellow: {
-//       main: 'rgb(226, 225, 130)',
-//     },
-//     customBlue: {
-//       main: 'rgb(51, 102, 122)',
-//     },
-//   },
-// });
 
 export default function RegistrationForm() {
 
    const [serverErrors,setServerErrors] = useState([])
    const navigate = useNavigate()
-    // async function handleSubmit(e){ 
-    //     e.preventDefault()
-    //     const formData= { 
-    //         username,
-    //         email,
-    //         password,
-    //         phone,
-    //         role
-    //     }
-    //     try{
-    //       const response = await axios.post('/comcraft/register',formData)
-    //       console.log(response.data)
-    //     }
-    //     catch(err){
-    //       console.log(err)
-    //     }
-        
-    // }
+    
     const userValidationSchema = Yup.object().shape({
       username:Yup.string().required('username is required.'),
       email:Yup.string().required('email is required.').email('Invalid email'),

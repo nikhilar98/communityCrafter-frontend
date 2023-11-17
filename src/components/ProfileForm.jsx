@@ -81,7 +81,6 @@ export default function ProfileForm() {
         formData.append('bio',bio)
         formData.append('address',address)
         formData.append('teachingCategories',JSON.stringify(teachingCategories))
-        // teachingCategories.forEach((ele)=>{return formData.append('teachingCategories', JSON.stringify(ele))})
         
         files.forEach((obj)=>{
               Object.values(obj.uploadedFiles).forEach((file)=>{

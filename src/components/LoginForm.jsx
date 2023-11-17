@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { createTheme,ThemeProvider  } from '@mui/material/styles';
+import { ThemeProvider  } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import axios from '../axios/axios';
@@ -11,22 +11,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import { userContext } from '../App';
 import theme from '../appTheme';
 
-// const theme = createTheme({
-//   palette: {
-//     customYellow: {
-//       main: 'rgb(226, 225, 130)',
-//     },
-//     customBlue: {
-//       main: 'rgb(51, 102, 122)',
-//     },
-//   },
-// });
-
 export default function LoginForm() {
 
     const navigate = useNavigate()
     const [serverErrors,setServerErrors] = useState([])
-    const {userState,userDispatch} = useContext(userContext)
+    const {userDispatch} = useContext(userContext)
 
     const notify = (msg) => toast.error(msg);
 
@@ -85,26 +74,11 @@ export default function LoginForm() {
       }
   })
 
-    // async function handleSubmit(e){ 
-    //     e.preventDefault()
-    //     const formData= { 
-    //         email,
-    //         password,
-    //     }
-    //     try{
-    //       const response = await axios.post('/comcraft/login',formData)
-    //       localStorage.setItem('token',response.data.token)
-    //     }
-    //     catch(err){
-    //       console.log(err)
-    //     }
-        
-    // }
 
     return (
       <ThemeProvider theme={theme}>
         <ToastContainer/>
-        <Box backgroundColor="white" borderRadius="20px" padding="20px" width="500px" onSubmit={formik.handleSubmit} component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }}} noValidate autoComplete="off">
+        <Box backgroundColor="white" borderRadius="20px" padding="20px" width="500px" onSubmit={formik.handleSubmit} component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }}} noValidate autoComplete="on">
           <h2>Login</h2>
 
           <TextField color="customBlue" name="email" id="email" label={formik.errors.email || serverErrors.find(ele=>ele.path=='email') ? "Error":"email"} variant="filled" type='text' value={formik.email} onChange={formik.handleChange} error={Boolean(formik.errors.email)|| Boolean(serverErrors.find(ele=>ele.path=='email'))} helperText={(formik.errors.email && formik.errors.email) || (serverErrors.find(ele=>ele.path=='email') && serverErrors.find(ele=>ele.path=='email').msg)}/><br/>
