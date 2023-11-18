@@ -49,7 +49,7 @@ export default function LoginForm() {
             }
           })
           userDispatch({type:'SET_USER',payload:userDetails.data})
-          if(userDetails.data.role=='commuityHead' || userDetails.data.role=='teacher'){
+          if(userDetails.data.role=='communityHead' || userDetails.data.role=='teacher'){
             const userProfile = await axios.get('/comcraft/getProfile',{
               headers:{
                 Authorization: localStorage.getItem('token')

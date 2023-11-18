@@ -22,11 +22,11 @@ export default function ProfileDisplay() {
 
     return ( 
         <div style={{paddingLeft:"20px"}}>
-            <h2>Bio</h2>
+            {userState.userDetails.role=='teacher' && <h2>Bio</h2>}
             <p>{userState.profileData.bio}</p>
             <h2>Address</h2>
             <p>{`${address.building}, ${address.locality}, ${address.city}, ${address.state}, ${address.country} - ${address.pincode}`}</p>
-            <h2>Teaching categories</h2>
+            {userState.userDetails.role=='teacher' && <h2>Teaching categories</h2>}
             {
                 userState.profileData.teachingCategories.map(ele=>{
                     return  <Card variant="outlined" sx={{ maxWidth: 1200,mb: 1.5,backgroundColor:'rgb(242, 243, 243)' }} key={ele._id}>

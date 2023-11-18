@@ -75,8 +75,30 @@ export default function ProfileForm() {
         
     }
 
+    async function handleSubmitCmHead(e){
+        e.preventDefault()
+        setIsSubmittingForm(true) 
+        const formData = { 
+            address
+        }
+       try{
+            const response = await axios.post('/comcraft/communityHead/createProfile',formData,{
+                headers:{
+                    Authorization : localStorage.getItem('token')
+                }
+            })
+            console.log(response.data)
+            setIsSubmittingForm(false)
+            userDispatch({type:'SET_USER_PROFILE',payload:response.data})
+       }
+       catch(err){
+            console.log(err)
+       }
+        
+    }
 
-    async function handleSubmit(e) { 
+
+    async function handleSubmitTeacher(e) { 
         e.preventDefault() 
         setIsSubmittingForm(true)
         const formData = new FormData() 
@@ -130,14 +152,19 @@ export default function ProfileForm() {
                 borderRadius="20px" 
                 padding="20px" 
                 width="500px" 
-                onSubmit={handleSubmit} 
+                onSubmit={userState.userDetails.role=='teacher' ? handleSubmitTeacher : handleSubmitCmHead} 
                 component="form" 
                 sx={{'& > :not(style)': { m: 1, width: '25ch' }}} 
                 noValidate 
                 autoComplete="off"
-                encType="multipart/form-data">
+                
+                encType={userState.userDetails.role=='teacher' ?"multipart/form-data":"application/x-www-form-urlencoded"}
+                >
 
-                <TextField color="customBlue" name="bio" id="bio" label="bio" variant="outlined" type='text' value={bio} onChange={(e)=>{setBio(e.target.value)}} multiline rows={6} helperText="Bio"/><br/>
+                {   userState.userDetails.role=='teacher' && 
+                
+                (<>
+                <TextField color="customBlue" name="bio" id="bio" label="bio" variant="outlined" type='text' value={bio} onChange={(e)=>{setBio(e.target.value)}} multiline rows={6} helperText="Bio"/><br/></>)}
 
                 <FormControl color="customBlue" variant="standard">
                             <FormLabel id="addresses">Select an address</FormLabel>
@@ -161,7 +188,7 @@ export default function ProfileForm() {
                 </FormControl><br/>
                 or <Link to='/address'>Create new Address</Link><br/><br/><br/>
 
-                <FormControl sx={{ m: 1, width: 300 }}>
+                {userState.userDetails.role=='teacher' && (<><FormControl sx={{ m: 1, width: 300 }}>
                     <InputLabel id="category-multiple-checkbox">Select a teaching field</InputLabel>
                     <Select
                     labelId="category-multiple-checkbox"
@@ -205,6 +232,9 @@ export default function ProfileForm() {
                         </fieldset>
                     })
                 }
+
+                </>)}
+
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                     <Button id="save_profile" variant="contained" size='large' type='submit' color="customYellow" disabled={isSubmittingForm}>Save Profile</Button>
                     {isSubmittingForm && <CircularProgress  size={50}/>}
