@@ -1,10 +1,8 @@
-import { useFormik } from "formik"
 import { useContext, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import * as Yup from 'yup'
 import { userContext } from "../App"
 import { ThemeProvider } from "@emotion/react"
-import { Box, Button, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@mui/material"
+import { Box, Button, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField, CircularProgress } from "@mui/material"
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -24,6 +22,7 @@ export default function ProfileForm() {
     const [categoriesSelected,setCategoriesSelected] = useState([])
     const [teachingCategories,setTeachingCategories] = useState([])
     const [files,setFiles] = useState([])
+    const [isSubmittingForm,setIsSubmittingForm] = useState(false)
     
     
     console.log(address)
@@ -79,6 +78,7 @@ export default function ProfileForm() {
 
     async function handleSubmit(e) { 
         e.preventDefault() 
+        setIsSubmittingForm(true)
         const formData = new FormData() 
 
         formData.append('bio',bio)
@@ -98,8 +98,8 @@ export default function ProfileForm() {
                     Authorization : localStorage.getItem('token')
                 }
             })
+            setIsSubmittingForm(false)
             userDispatch({type:'SET_USER_PROFILE',payload:response.data})
-            console.log(response.data)
         }
         catch(err){
             console.log(err)
@@ -126,16 +126,16 @@ export default function ProfileForm() {
             <h1>Create Profile</h1>
         <ThemeProvider theme={theme}>
             <Box 
-            backgroundColor="white" 
-            borderRadius="20px" 
-            padding="20px" 
-            width="500px" 
-            onSubmit={handleSubmit} 
-            component="form" 
-            sx={{'& > :not(style)': { m: 1, width: '25ch' }}} 
-            noValidate 
-            autoComplete="off"
-            encType="multipart/form-data">
+                backgroundColor="white" 
+                borderRadius="20px" 
+                padding="20px" 
+                width="500px" 
+                onSubmit={handleSubmit} 
+                component="form" 
+                sx={{'& > :not(style)': { m: 1, width: '25ch' }}} 
+                noValidate 
+                autoComplete="off"
+                encType="multipart/form-data">
 
                 <TextField color="customBlue" name="bio" id="bio" label="bio" variant="outlined" type='text' value={bio} onChange={(e)=>{setBio(e.target.value)}} multiline rows={6} helperText="Bio"/><br/>
 
@@ -205,12 +205,14 @@ export default function ProfileForm() {
                         </fieldset>
                     })
                 }
-
-            
-            <Button id="save_profile" variant="contained" size='large' type='submit' color="customYellow">Save Profile</Button>
-
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                    <Button id="save_profile" variant="contained" size='large' type='submit' color="customYellow" disabled={isSubmittingForm}>Save Profile</Button>
+                    {isSubmittingForm && <CircularProgress  size={50}/>}
+                </div>
+                
+                
             </Box>
-            <ToastContainer/>
+           
       </ThemeProvider>
         </div>
     )
