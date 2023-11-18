@@ -43,12 +43,14 @@ export default function LoginForm() {
         try{
           const response = await axios.post('/comcraft/login',values)
           localStorage.setItem('token',response.data.token)
+
           const userDetails = await axios.get('/comcraft/getAccount',{
             headers:{
               Authorization: localStorage.getItem('token')
             }
           })
           userDispatch({type:'SET_USER',payload:userDetails.data})
+
           if(userDetails.data.role=='communityHead' || userDetails.data.role=='teacher'){
             const userProfile = await axios.get('/comcraft/getProfile',{
               headers:{
@@ -57,6 +59,7 @@ export default function LoginForm() {
             })
             userDispatch({type:'SET_USER_PROFILE',payload:userProfile.data})
           }
+
           const userAddresses = await axios.get('/comcraft/address',{
             headers:{
               Authorization: localStorage.getItem('token')

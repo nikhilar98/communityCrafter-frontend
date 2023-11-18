@@ -8,13 +8,16 @@ const userReducer = (state,action) => {
             return {...state,profileData:action.payload}
         }
         case 'LOGOUT_USER' : { 
-            return {...state,userDetails:{},profileData:{},userAddresses:[]}
+            return {...state,userDetails:{},profileData:{},userAddresses:[],requirements:[]}
         }
         case 'SET_USER_ADDRESSES' : { 
             return {...state,userAddresses:action.payload}
         }
         case 'ADD_USER_ADDRESS' : { 
             return {...state,userAddresses:[...state.userAddresses,action.payload]}
+        }
+        case 'SET_USER_REQUIREMENTS' : { 
+            return {...state,requirements:action.payload}
         }
         default : return {...state}
     }

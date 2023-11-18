@@ -9,12 +9,15 @@ import Profile from './components/Profile'
 import { useDispatch } from 'react-redux'
 import { startSetCategories } from './actions/categoryActions'
 import AddressForm from './components/AddressForm'
+import RequirementsList from './components/RequirementsList'
+import RequirementCreate from './components/RequirementForm'
+import RequirementDisplay from './components/RequirementDisplay'
 
 export const userContext = createContext()
 
 export function App() {
 
-  const [userState,userDispatch] = useReducer(userReducer,{userDetails:{},profileData:{},userAddresses:[]})
+  const [userState,userDispatch] = useReducer(userReducer,{userDetails:{},profileData:{},userAddresses:[],requirements:[]})
 
   const reduxDispatch = useDispatch()
 
@@ -74,6 +77,8 @@ export function App() {
                   <> 
                     <Link to='/' className='Link'>Home</Link>
                     {['communityHead','teacher'].includes(userState.userDetails.role) && <Link to='/profile' className='Link'>Profile</Link>}
+                    {userState.userDetails.role=='teacher' && <Link to='/requirements' className='Link'>Community Requirements</Link>}
+                    {userState.userDetails.role=='communityHead' && <Link to='/create-requirement' className='Link'>Create requirement</Link>}
                     <Link to='/' className='Link' onClick={handleLogout}>Logout</Link>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" width='30px'>
                       <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
@@ -94,6 +99,9 @@ export function App() {
             <Route path='/login' element={<Login/>}></Route>
             <Route path='/profile'element={<Profile/>}></Route>
             <Route path='/address' element={<AddressForm/>}></Route>
+            <Route path='/create-requirement' element={<RequirementCreate/>}></Route>
+            <Route path='/requirements' element={<RequirementsList/>}></Route>
+            <Route path='/requirement/:id' element={<RequirementDisplay/>}></Route>
         </Routes>
       </div>
     </userContext.Provider>
