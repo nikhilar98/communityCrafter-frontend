@@ -33,6 +33,7 @@ export function App() {
     (async function(){
       try{
           reduxDispatch(startSetCategories())
+
           if(localStorage.getItem('token')){
           
             const userDetails = await axios.get('/comcraft/getAccount',{
@@ -41,7 +42,8 @@ export function App() {
               }
             })
             userDispatch({type:'SET_USER',payload:userDetails.data})
-            if(userDetails.data.role=='commuityHead' || userDetails.data.role=='teacher'){
+           
+            if(userDetails.data.role=='communityHead' || userDetails.data.role=='teacher'){
               const userProfile = await axios.get('/comcraft/getProfile',{
                 headers:{
                   Authorization: localStorage.getItem('token')
@@ -49,13 +51,39 @@ export function App() {
               })
               userDispatch({type:'SET_USER_PROFILE',payload:userProfile.data})
             }
+
             const userAddresses = await axios.get('/comcraft/address',{
               headers:{
                 Authorization: localStorage.getItem('token')
               }
             })
             userDispatch({type:'SET_USER_ADDRESSES',payload:userAddresses.data})
-          
+
+            if(userDetails.data.role=='teacher'){
+              const userProfile = await axios.get('/comcraft/getProfile',{
+                headers:{
+                  Authorization: localStorage.getItem('token')
+                }
+              })
+              if(userProfile.data.address){  ///make the api call only if 
+                const requirements = await axios.get('/comcraft/classRequirements/pending',{
+                  headers:{
+                      Authorization: localStorage.getItem('token')
+                  }
+                  })  //for getting all pending community requirements based on teachers location
+                  console.log('teacher requirements',requirements.data)  
+                  userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
+              }
+            }
+            else if(userDetails.data.role=='communityHead'){
+                const requirements = await axios.get('/comcraft/classRequirements',{
+                headers:{
+                    Authorization: localStorage.getItem('token')
+                }
+                }) //for getting all requirements created by a cm head
+                userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
+                
+            }
         }
       }
       catch(err){

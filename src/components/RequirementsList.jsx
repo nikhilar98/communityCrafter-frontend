@@ -7,16 +7,17 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function RequirementsList (props){ 
 
+    const navigate= useNavigate()
     const {userState,userDispatch} = useContext(userContext) 
     const role = userState.userDetails.role
-
     const categories = useSelector((state)=>{
         return state.categories
     })
+
  
     const notify= (msg) => { toast.error(msg)}
     
@@ -51,7 +52,7 @@ export default function RequirementsList (props){
                 }
                 
             })()
-    },[])
+    },[role])
 
     return ( 
         <div>
@@ -69,7 +70,7 @@ export default function RequirementsList (props){
                                     <Typography sx={{ mb: 1.5 }}>
                                         duration : {ele.duration} months
                                     </Typography>
-                                    <Link to={`/requirement/${ele._id}`}><Button>View more Details</Button></Link>
+                                    <Button onClick={()=>{navigate(`/requirement/${ele._id}`)}}>View more Details</Button>
                                 </CardContent>
                             </Card>
                 })
