@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { userContext } from "../App"
 import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
+import { Button } from "@mui/material"
 
 export default function RequirementDisplay (props){ 
 
@@ -55,16 +56,24 @@ export default function RequirementDisplay (props){
         // },[userState.userDetails])                
 
     return ( 
-      Boolean(userState.requirements.length) && <div>
+      requirement ?  <div style={{marginLeft:20}}>
             <h1>{requirement?.title}</h1>
-            <h2>{category.name}</h2>
+            <h2>Category : {category.name}</h2>
+            <p><strong>Community address :</strong> {requirement?.address.building}, {requirement?.address.locality}, {requirement?.address.city}, {requirement?.address.state}, {requirement?.address.country}, {requirement?.address.pincode}</p>
             <p><strong>batch size range :</strong> {requirement?.batchSizeRange}</p>
             <p><strong>Pay offered :</strong> &#8377;{requirement?.payOffered}</p>
-            <p><strong>week days : </strong> {requirement?.weekdays.join(", ")}</p>
+            <p><strong>weekdays : </strong> {requirement?.weekdays.join(", ")}</p>
             <p><strong>Desired Time slot :</strong> {requirement?.desiredTimeSlot}</p>
             <p><strong>Commencement Date :</strong> {new Date(requirement?.commencementDate).toDateString()}</p>
-            <p><strong>Duration :</strong> {requirement?.duration}</p>
-            <p><strong>Description :</strong> {requirement?.description}</p>
-        </div>
+            <p><strong>Duration :</strong> {requirement?.duration} months</p>
+            <p><strong>Description :</strong> {requirement?.description}</p><br /><br />
+            <h3>Contact Info</h3>
+            <p>username : {requirement?.creator.username}</p>
+            <p>Email id: {requirement?.creator.email}</p>
+            <p>phone : {requirement?.creator.phone}</p>
+
+            <div style={{display:"flex",justifyContent:'center'}}><Button variant="contained" size="large">Accept Requirement</Button></div>
+        </div> : 
+        <div>loading...</div>
     )
 }

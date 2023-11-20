@@ -10,8 +10,9 @@ import { useDispatch } from 'react-redux'
 import { startSetCategories } from './actions/categoryActions'
 import AddressForm from './components/AddressForm'
 import RequirementsList from './components/RequirementsList'
-import RequirementCreate from './components/RequirementForm'
+import RequirementCreate from './components/RequirementCreate'
 import RequirementDisplay from './components/RequirementDisplay'
+import logo from './images/cmlogo6.png'
 
 export const userContext = createContext()
 
@@ -99,7 +100,7 @@ export function App() {
     <userContext.Provider value={{userState,userDispatch}}>
       <div>
         <nav>
-              <img src='./src/images/cmlogo6.png' alt="logo" style={{width:"70px"}}/>
+              <img src={logo} alt="logo" style={{width:"70px"}}/>
               {
                 Object.keys(userState.userDetails).length ?
                   <> 

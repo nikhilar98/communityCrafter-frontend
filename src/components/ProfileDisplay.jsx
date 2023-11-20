@@ -18,8 +18,7 @@ export default function ProfileDisplay() {
     const categories = useSelector((state)=>{
         return state.categories
     })
-    console.log(categories)
-
+    
     return ( 
         <div style={{paddingLeft:"20px"}}>
             {userState.userDetails.role=='teacher' && <h2>Bio</h2>}
