@@ -8,6 +8,9 @@ import { createTheme } from "@mui/material";
       customBlue: {
         main: 'rgb(51, 102, 122)',
       },
+      customGreen:{
+        main : 'rgb(83, 191, 102)'
+      }
     },
   });
 

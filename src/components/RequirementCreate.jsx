@@ -71,6 +71,7 @@ export default function RequirementCreate (props){
                 })
                 console.log(response.data)
                 resetForm()
+                navigate('/myRequirements')
             }
             catch(err){
               console.log(err)

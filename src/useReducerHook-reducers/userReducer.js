@@ -19,6 +19,16 @@ const userReducer = (state,action) => {
         case 'SET_USER_REQUIREMENTS' : { 
             return {...state,requirements:action.payload}
         }
+        case 'UPDATE_USER_REQUIREMENT' : { 
+            const updatedRequirements = state.requirements.map(ele=>{
+                if(ele._id==action.payload._id){
+                    return {...action.payload}
+                }else {
+                    return {...ele}
+                }
+            })
+            return {...state,requirements:updatedRequirements}
+        }
         default : return {...state}
     }
 }

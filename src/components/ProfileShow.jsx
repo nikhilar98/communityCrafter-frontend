@@ -1,50 +1,60 @@
-import { useContext } from "react"
-import { userContext } from "../App"
+import { useState,useEffect } from "react"
+import { useParams } from "react-router-dom"
+import axios from "../axios/axios"
+import { Card, CardContent, CardMedia, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { CardMedia } from "@mui/material";
+import _ from 'lodash'
 
 
+export default function ProfileShow(){
 
-export default function ProfileDisplay() { 
-
-    const {userState} = useContext(userContext) 
-    const address = userState.profileData.address
-
+    const {tutorId} = useParams()
+    const [profile,setProfile] = useState({})
     const categories = useSelector((state)=>{
         return state.categories
     })
+
+    useEffect(()=>{
+        (async function(){
+            try{
+                const userProfile = await axios.get(`/comcraft/user/${tutorId}`)
+                console.log(userProfile.data)
+                setProfile(userProfile.data)
+            }
+            catch(err){
+                console.log(err)
+            }
+        })()
+    },[])
     
-    return ( 
-        <div style={{paddingLeft:"20px"}}>
+    return (
+        <div>
+            { _.isEmpty(profile) ? <p>Loading...</p> :
+            <div style={{paddingLeft:"20px"}}>
             <Card variant="outlined" sx={{ maxWidth: 1200,mb: 1.5,backgroundColor:'rgb(242, 243, 243)',marginTop:'20px' }}>
                 <CardContent>
                                     <Typography variant="h4" color="text.secondary" gutterBottom>
-                                      Account Details
+                                      Contact Details
                                     </Typography>
                                     <Typography sx={{ mb: 1.5 }}>
-                                       username : {userState.userDetails.username}
+                                       username : {profile.user?.username}
                                     </Typography>
                                     <Typography sx={{ mb: 1.5 }}>
-                                        email : {userState.userDetails.email} 
+                                        email : {profile.user?.email} 
                                     </Typography>
                                     <Typography sx={{ mb: 1.5 }}>
-                                        phone : {userState.userDetails.phone}
+                                        phone : {profile.user?.phone}
                                     </Typography>
                                     
                 </CardContent>
             </Card>
-            {userState.userDetails.role=='teacher' && <h2>Bio</h2>}
-            <p>{userState.profileData.bio}</p>
+            <h2>Bio</h2>
+            <p>{profile.bio}</p>
             <h2>Address</h2>
-            <p>{`${address.building}, ${address.locality}, ${address.city}, ${address.state}, ${address.country} - ${address.pincode}`}</p>
-            {userState.userDetails.role=='teacher' && <h2>Teaching categories</h2>}
+            <p>{`${profile.address?.building}, ${profile.address?.locality}, ${profile.address?.city}, ${profile.address?.state}, ${profile.address?.country} - ${profile.address?.pincode}`}</p>
+            <h2>Teaching categories</h2>
             {
-                userState.profileData.teachingCategories.map(ele=>{
+                profile.teachingCategories?.map(ele=>{
                     return  <Card variant="outlined" sx={{ maxWidth: 1200,mb: 1.5,backgroundColor:'rgb(242, 243, 243)' }} key={ele._id}>
                                 <CardContent>
                                     <Typography variant="h4" color="text.secondary" gutterBottom>
@@ -75,6 +85,8 @@ export default function ProfileDisplay() {
                    
                 })
             }
+        </div>
+        }
         </div>
     )
 }
