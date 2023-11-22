@@ -3,12 +3,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { ThemeProvider  } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { useContext,  useState } from 'react';
+import { useContext,  useEffect,  useState } from 'react';
 import { userContext } from '../App';
 import theme from '../appTheme';
 import { Checkbox, FormControl, FormControlLabel, FormLabel, InputLabel, ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select } from '@mui/material';
 import { useSelector } from 'react-redux';
 import axios from '../axios/axios';
+import { toast,ToastContainer } from 'react-toastify';
 export default function RequirementCreate (props){ 
     
         const navigate = useNavigate()
@@ -32,6 +33,10 @@ export default function RequirementCreate (props){
         const categories = useSelector((state)=>{
           return state.categories
         })
+
+        function notify(msg){
+          toast.error(msg)
+        }
 
         function resetForm (){
           setTitle("")
@@ -87,6 +92,13 @@ export default function RequirementCreate (props){
           );
         };
 
+        useEffect(()=>{
+          if(userState.profileData==null ){
+            notify('Please create your profile before creating a requirement.')
+          }
+          
+        },[])
+
         const ITEM_HEIGHT = 48;
         const ITEM_PADDING_TOP = 8;
         const MenuProps = {
@@ -100,9 +112,12 @@ export default function RequirementCreate (props){
     
         return (
           <ThemeProvider theme={theme}>
+            <ToastContainer/>
             <Box backgroundColor="white" borderRadius="20px" padding="20px" width="500px" onSubmit={handleSubmit} component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }}} noValidate autoComplete="on">
               <h2>Create a requirement</h2>
-    
+              {
+                userState.profileData && 
+              <>
               <TextField color="customBlue" name="title" id="title" label="title" variant="outlined" type='text' value={title} onChange={(e)=>{setTitle(e.target.value)}} />
 
               <FormControl>
@@ -225,6 +240,8 @@ export default function RequirementCreate (props){
 
     
               <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Post requirement</Button>
+              </>
+            }
             </Box>
           </ThemeProvider>
         )

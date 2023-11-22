@@ -10,13 +10,15 @@ import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify';
 import { userContext } from '../App';
 import theme from '../appTheme';
+import startSetClasses from '../actions/classesActions';
+import { useDispatch } from 'react-redux';
 
 export default function LoginForm() {
 
     const navigate = useNavigate()
     const [serverErrors,setServerErrors] = useState([])
     const {userDispatch} = useContext(userContext)
-
+    const reduxDispatch = useDispatch()
     const notify = (msg) => toast.error(msg);
 
     useEffect(()=>{
@@ -66,6 +68,9 @@ export default function LoginForm() {
             }
           })
           userDispatch({type:'SET_USER_ADDRESSES',payload:userAddresses.data})
+          if(userDetails.data.role=='teacher'){
+            reduxDispatch(startSetClasses())
+          }
           navigate('/')
           setServerErrors([])
         }

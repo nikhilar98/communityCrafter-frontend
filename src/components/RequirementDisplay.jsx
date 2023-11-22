@@ -163,9 +163,9 @@ export default function RequirementDisplay (props){
                 userState.userDetails.role=='teacher' && 
                 <div style={{display:"flex",justifyContent:'center',alignItems:'center',marginBottom:30}}>
                     {
-                        alreadyProposed() ? <strong>You have accepted the requirement. Please wait patiently for the response. <span style={{color:'rgb(226, 225, 130)'}}>ruko zara, sabar karo!</span> </strong> 
+                        alreadyProposed() ? <strong>You have sent a proposal. Please wait patiently for the response. <span style={{color:'rgb(226, 225, 130)'}}>ruko zara, sabar karo!</span> </strong> 
                         :
-                        <Button variant="contained" size="large" onClick={handleAcceptRequirement}>Accept Requirement</Button>
+                        <Button variant="contained" size="large" onClick={handleAcceptRequirement}>Send Proposal</Button>
                     }
                     
                 </div>

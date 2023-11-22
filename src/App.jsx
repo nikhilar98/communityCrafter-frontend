@@ -13,8 +13,10 @@ import RequirementsList from './components/RequirementsList'
 import RequirementCreate from './components/RequirementCreate'
 import RequirementDisplay from './components/RequirementDisplay'
 import logo from './images/cmlogo6.png'
-import ProfileDisplay from './components/ProfileDisplay'
 import ProfileShow from './components/ProfileShow'
+import TutorClassesList from './components/TutorClassesList'
+import startSetClasses from './actions/classesActions'
+import { ClassDetailsDisplay } from './components/ClassDetailsDisplay'
 
 export const userContext = createContext()
 
@@ -36,7 +38,6 @@ export function App() {
     (async function(){
       try{
           reduxDispatch(startSetCategories())
-
           if(localStorage.getItem('token')){
           
             const userDetails = await axios.get('/comcraft/getAccount',{
@@ -87,6 +88,9 @@ export function App() {
                 userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
                 
             }
+            if(userDetails.data.role=='teacher'){
+              reduxDispatch(startSetClasses())
+            }
         }
       }
       catch(err){
@@ -110,6 +114,7 @@ export function App() {
                       <Link to='/' className='Link'>Home</Link>
                       {['communityHead','teacher'].includes(userState.userDetails.role) && <Link to='/profile' className='Link'>Profile</Link>}
                       {userState.userDetails.role=='teacher' && <Link to='/requirements' className='Link'>Community Requirements</Link>}
+                      {userState.userDetails.role=='teacher' && <Link to='/classes' className='Link'>My classes</Link>}
                       {userState.userDetails.role=='communityHead' && <Link to='/create-requirement' className='Link'>Create requirement</Link>}
                       {userState.userDetails.role=='communityHead' && <Link to='/myRequirements' className='Link'>My requirements</Link>}
                     </div>
@@ -141,6 +146,9 @@ export function App() {
             <Route path='/requirements' element={<RequirementsList/>}></Route>
             <Route path='/requirement/:id' element={<RequirementDisplay/>}></Route>
             <Route path='/tutor/:tutorId' element={<ProfileShow/>}></Route>
+            <Route path='/classes' element={<TutorClassesList/>}></Route>
+            <Route path='/classes/:classId' element={<ClassDetailsDisplay/>}></Route>
+            
         </Routes>
       </div>
     </userContext.Provider>
