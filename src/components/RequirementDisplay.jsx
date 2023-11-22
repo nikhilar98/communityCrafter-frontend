@@ -2,13 +2,29 @@ import { useContext, useEffect, useState } from "react"
 import { userContext } from "../App"
 import { useNavigate, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { Button, Card, CardContent, Typography } from "@mui/material"
+import { Button, Card, CardContent, Typography, Modal, Box } from "@mui/material"
 import axios from "../axios/axios"
 import { ToastContainer, toast } from 'react-toastify';
 import { ThemeProvider } from "@emotion/react"
 import theme from "../appTheme"
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: 'none',
+    borderRadius:'20px',
+    boxShadow: 24,
+    p: 4,
+  };
+
 export default function RequirementDisplay (props){ 
+
+        const [open,setOpen] = useState(false)
+        const [confirm,setConfirm] = useState(false)
 
         const {id} = useParams()
         const {userState,userDispatch} = useContext(userContext)
@@ -22,9 +38,12 @@ export default function RequirementDisplay (props){
         
         const alreadyProposed = () => { return requirement?.proposals.find(ele=>ele==userState.userDetails._id)}
         
-        async function handleAcceptProposal(tutorId){ 
-            const accept = confirm('Are you sure?')
-            if(accept){
+        function handleAcceptProposal(){ 
+            setOpen(true)
+        }
+
+        async function confirmProposal(tutorId){
+            
                    try{
                         const response = await axios.put(`/comcraft/classRequirement/${id}`,{userId:tutorId},{
                             headers:{
@@ -32,11 +51,12 @@ export default function RequirementDisplay (props){
                             }
                         })
                         userDispatch({type:'UPDATE_USER_REQUIREMENT',payload:response.data.requirement})
+                        setOpen(false)
                    }
                    catch(err){
                         console.log(err)
                    }
-            }
+            
         }
                     
         async function handleAcceptRequirement(){
@@ -90,7 +110,7 @@ export default function RequirementDisplay (props){
                                             <Typography sx={{ mb: 1.5 }}>
                                                  phone : {requirement?.confirmedTeacherId.phone}
                                             </Typography>
-                                            
+                                            <Button onClick={()=>{navigate(`/tutor/${requirement?.confirmedTeacherId._id}`)}}>Visit Profile</Button>
                                         </CardContent>
                                     </Card>
                         </div> 
@@ -105,7 +125,24 @@ export default function RequirementDisplay (props){
                                                             {ele.username}
                                                         </Typography>
                                                         <Button variant="contained" color="customYellow" sx={{marginRight:"20px"}} onClick={()=>{navigate(`/tutor/${ele._id}`)}}>View Profile</Button>
-                                                        <Button variant="contained" color="customGreen" onClick={()=>{handleAcceptProposal(ele._id)}}>Accept Proposal</Button>
+                                                        <Button variant="contained" color="customGreen" onClick={handleAcceptProposal}>Accept Proposal</Button>
+                                                        <Modal
+                                                                open={open}
+                                                                onClose={()=>{setOpen(false)}}
+                                                                aria-labelledby="modal-modal-title"
+                                                                aria-describedby="modal-modal-description"
+                                                            >
+                                                                <Box sx={style}>
+                                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                    Confirmation
+                                                                </Typography>
+                                                                <Typography id="modal-modal-description" sx={{ mt: 2,mb:2 }}>
+                                                                    Are you sure you want to proceed with the tutor ? 
+                                                                </Typography>
+                                                                <Button variant="contained" color="customGreen" onClick={()=>{confirmProposal(ele._id)}}>Confirm</Button>
+                                                                <Button variant="contained" color="customRed" sx={{ ml:2 }} onClick={()=>{setOpen(false)}}>Cancel</Button>
+                                                                </Box>
+                                                        </Modal>
                                                     </CardContent>
                                                 </Card>
                                     })

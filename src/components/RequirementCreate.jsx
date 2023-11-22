@@ -224,7 +224,7 @@ export default function RequirementCreate (props){
               <TextField color="customBlue" name="pay" id="pay" label="Total pay offered (in Rupee)" variant="outlined" type='number'  value={pay} onChange={(e)=>{setPay(e.target.value)}}/><br/>
 
     
-              <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Create</Button>
+              <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Post requirement</Button>
             </Box>
           </ThemeProvider>
         )

@@ -10,6 +10,9 @@ import { createTheme } from "@mui/material";
       },
       customGreen:{
         main : 'rgb(83, 191, 102)'
+      },
+      customRed:{
+        main: 'rgb(243, 73, 60)'
       }
     },
   });

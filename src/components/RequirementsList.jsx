@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import {isEmpty} from 'lodash'
 
 export default function RequirementsList (props){ 
 
@@ -57,13 +58,22 @@ export default function RequirementsList (props){
     return ( 
         <div>
             <ToastContainer/>
+            <h1 style={{margin: 10}}>{ role =='communityHead' ? 'My requirements': 'Requirements available'}</h1>
+            {( userState.profileData && userState.requirements.length==0) && <p style={{margin: 10}}>{ role =='communityHead' ? 'No requirements created': 'No new requirements available in your area.'}</p>}
             {
                 userState.requirements.map(ele=>{
                     return <Card variant="outlined" sx={{ maxWidth: 800,m: 1.5,backgroundColor:'rgb(242, 243, 243)' }} key={ele._id}>
                                 <CardContent>
+                                    <div style={{display:"flex",alignItems:'center',justifyContent:'space-between'}}>
                                     <Typography variant="h4" color="text.secondary" gutterBottom>
                                         {ele.title}
                                     </Typography>
+                                    {
+                                        role=='communityHead' &&  <Typography sx={{ mb: 1.5 ,color: ele.status=='pending' ? 'red' : 'green',fontWeight:'600'}}>
+                                        status : {ele.status} 
+                                    </Typography>
+                                    }
+                                    </div>
                                     <Typography sx={{ mb: 1.5 }}>
                                        Category : {categories.find(cat=>cat._id==ele.categoryId)?.name} 
                                     </Typography>

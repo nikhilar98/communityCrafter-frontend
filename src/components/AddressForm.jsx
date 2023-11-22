@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { ThemeProvider  } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import axios from '../axios/axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -16,9 +16,7 @@ export default function AddressForm() {
     const navigate = useNavigate()
     const [serverErrors,setServerErrors] = useState([])
     const {userDispatch} = useContext(userContext)
-
-    const notify = (msg) => toast.error(msg);
-
+    
     const addressValidationSchema = Yup.object().shape({
         building:Yup.string().required('buliding is required.'),
         locality:Yup.string().required('locality is required.'),
@@ -60,6 +58,12 @@ export default function AddressForm() {
       }
   })
 
+  useMemo(()=>{
+    const invalidAddress = serverErrors.find(ele=>ele.path=='invalid address')
+    if(invalidAddress){
+      toast.error(invalidAddress.msg)
+    }
+  },[serverErrors])
 
     return (
       <ThemeProvider theme={theme}>
