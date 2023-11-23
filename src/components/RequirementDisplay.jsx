@@ -82,7 +82,7 @@ export default function RequirementDisplay (props){
                 <h1>{requirement?.title}</h1> 
                 {userState.userDetails.role=='communityHead' && <p style={{marginRight:30,color:requirement.status=='pending' ? 'red' : 'green'}}>Status : {requirement.status}</p>} 
             </div>
-            <h2>Category : {category.name}</h2>
+            <h2>Category : {category?.name}</h2>
             <p><strong>Community address :</strong> {requirement?.address.building}, {requirement?.address.locality}, {requirement?.address.city}, {requirement?.address.state}, {requirement?.address.country}, {requirement?.address.pincode}</p>
             <p><strong>batch size range :</strong> {requirement?.batchSizeRange}</p>
             <p><strong>Pay offered :</strong> &#8377;{requirement?.payOffered}</p>
