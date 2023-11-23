@@ -8,7 +8,7 @@ const userReducer = (state,action) => {
             return {...state,profileData:action.payload}
         }
         case 'LOGOUT_USER' : { 
-            return {...state,userDetails:{},profileData:{},userAddresses:[],requirements:[]}
+            return {...state,userDetails:{},profileData:{},userAddresses:[],requirements:[],requirementsSortingOrder:'ascending'}
         }
         case 'SET_USER_ADDRESSES' : { 
             return {...state,userAddresses:action.payload}
@@ -28,6 +28,12 @@ const userReducer = (state,action) => {
                 }
             })
             return {...state,requirements:updatedRequirements}
+        }
+        case 'SET_LIST_SORT_ORDER':{
+            return {...state,requirementsSortingOrder:action.payload}
+        }
+        case 'SET_SEARCH_DISTANCE':{
+            return {...state,searchDistance:action.payload}
         }
         default : return {...state}
     }

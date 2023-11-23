@@ -22,7 +22,7 @@ export const userContext = createContext()
 
 export function App() {
 
-  const [userState,userDispatch] = useReducer(userReducer,{userDetails:{},profileData:{},userAddresses:[],requirements:[]})
+  const [userState,userDispatch] = useReducer(userReducer,{userDetails:{},profileData:{},userAddresses:[],requirements:[],requirementsSortingOrder:'ascending',searchDistance:20000})
 
   const reduxDispatch = useDispatch()
 
@@ -70,7 +70,7 @@ export function App() {
                 }
               })
               if(userProfile.data.address){  ///make the api call only if 
-                const requirements = await axios.get('/comcraft/classRequirements/pending',{
+                const requirements = await axios.get(`/comcraft/classRequirements/pending?sortOrder=${userState.requirementsSortingOrder}&searchDistance=${userState.searchDistance}`,{
                   headers:{
                       Authorization: localStorage.getItem('token')
                   }
@@ -80,7 +80,7 @@ export function App() {
               }
             }
             else if(userDetails.data.role=='communityHead'){
-                const requirements = await axios.get('/comcraft/classRequirements',{
+                const requirements = await axios.get(`/comcraft/classRequirements?sortOrder=${userState.requirementsSortingOrder}`,{
                 headers:{
                     Authorization: localStorage.getItem('token')
                 }
