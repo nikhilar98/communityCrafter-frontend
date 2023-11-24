@@ -17,6 +17,10 @@ import ProfileShow from './components/ProfileShow'
 import TutorClassesList from './components/TutorClassesList'
 import startSetClasses from './actions/classesActions'
 import { ClassDetailsDisplay } from './components/ClassDetailsDisplay'
+import PaymentResult from './components/paymentResult'
+
+
+
 
 export const userContext = createContext()
 
@@ -148,7 +152,7 @@ export function App() {
             <Route path='/tutor/:tutorId' element={<ProfileShow/>}></Route>
             <Route path='/classes' element={<TutorClassesList/>}></Route>
             <Route path='/classes/:classId' element={<ClassDetailsDisplay/>}></Route>
-            
+            <Route path='/create-checkout-session/requirement' element={<PaymentResult/>} ></Route>
         </Routes>
       </div>
     </userContext.Provider>

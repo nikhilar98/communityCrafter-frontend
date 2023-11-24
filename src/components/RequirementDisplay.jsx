@@ -44,14 +44,21 @@ export default function RequirementDisplay (props){
 
         async function confirmProposal(tutorId){
             
-                   try{
-                        const response = await axios.put(`/comcraft/classRequirement/${id}`,{userId:tutorId},{
-                            headers:{
-                                Authorization: localStorage.getItem('token')
+                   try{ 
+                            //make payment using stripe
+                        
+                        const stripeResponse = await axios.post(`/comcraft/classRequirement/checkout`,{payOffered:requirement.payOffered},{
+                            headers : {
+                                Authorization : localStorage.getItem('token')
                             }
                         })
-                        userDispatch({type:'UPDATE_USER_REQUIREMENT',payload:response.data.requirement})
-                        setOpen(false)
+                        console.log('object returned by stripe',stripeResponse.data)
+                        localStorage.setItem('transactionId',stripeResponse.data.id)
+                        localStorage.setItem('requirement',JSON.stringify(requirement))
+                        localStorage.setItem('tutorId',tutorId)
+                        window.location = stripeResponse.data.url
+                       
+
                    }
                    catch(err){
                         console.log(err)

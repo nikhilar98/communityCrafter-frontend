@@ -122,7 +122,7 @@ export default function RequirementsList (props){
             }
 
             {
-                isLoading  && <CircularProgress  size={50} sx={{marginLeft:"20px"}}/>
+                (isLoading  && userState.profileData) && <CircularProgress  size={50} sx={{marginLeft:"20px"}}/>
             }
             
             {
