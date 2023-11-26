@@ -1,13 +1,10 @@
 nav { 
     background-color:rgb(226, 225, 130);
     margin: 0;
-    padding: 0;
+    padding-right: 20px;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
-    position:sticky;
-    top:0;
-    z-index: 100;
 }
 .Link{
     color:rgb(51, 102, 122);
@@ -26,11 +23,10 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 .setBackgroundImage{
-    background-image:url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d.jpg");
+    background-image:url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d-02.jpeg");
     margin: 0;
     padding: 0;
     height:100vh;
-    
     z-index: 1;
     background-size:cover;
     display: flex;
@@ -38,10 +34,10 @@ body{
     justify-content: center;
 }
 .setBackgroundImageHome{
-    background-image:url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d.jpg");
+    background-image:url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d-02.jpeg");
     margin: 0;
     padding: 20px;
-    height:100vh;
+    height:1000px;
     color:whitesmoke;
     z-index: 1;
     background-size:cover;

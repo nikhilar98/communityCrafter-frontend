@@ -13,8 +13,8 @@ export default function Header() {
       }
 
     return  ( 
-        <header>
-            <nav style={{display:"flex",alignItems:'center',justifyContent:"space-between",paddingRight:"20px"}}>
+        <header style={{position:'sticky',top:'0',zIndex:1000}}>
+            <nav>
               {
                 Object.keys(userState.userDetails).length ?
                   <>
