@@ -15,6 +15,12 @@ nav {
     margin: 0px 30px;
     font-weight: 600;
 }
+.FooterLink{
+    color:rgb(51, 102, 122);
+    text-decoration:none;
+    margin: 0px 30px;
+    font-weight: 600;
+}
 body{
     margin:0;
     font-family: 'Poppins', sans-serif;
@@ -31,9 +37,25 @@ body{
     align-items: center;
     justify-content: center;
 }
+.setBackgroundImageHome{
+    background-image:url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d.jpg");
+    margin: 0;
+    padding: 20px;
+    height:100vh;
+    color:whitesmoke;
+    z-index: 1;
+    background-size:cover;
+}
 .teachingCategoriesList{
     list-style:none;
 }
 fieldset{
     border-radius: 10px;
+}
+footer{
+    background-color:rgb(226, 225, 130);
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

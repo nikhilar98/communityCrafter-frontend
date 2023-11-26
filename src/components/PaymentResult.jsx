@@ -94,7 +94,7 @@ export default function PaymentResult() {
                     <Box sx={style}>
                         <Typography variant="h6" component="h2">uh ohh... Payment failed!</Typography>
                         <CircularProgress color='secondary'/><br/><br/>
-                        <Button variant="contained" color="customGreen" onClick={navigateUserToRequirement}>Retry</Button>                                          
+                        <Button variant="contained" color="customRed" onClick={navigateUserToRequirement}>Retry</Button>                                          
                     </Box>
             </Modal> 
         </ThemeProvider>

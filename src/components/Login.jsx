@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "./Footer";
 
 export default function Login(){ 
 
@@ -22,9 +23,12 @@ export default function Login(){
     },[])
 
     return (
+        <>
         <div className="setBackgroundImage">
             <ToastContainer />
             <LoginForm/>
         </div>
+        <Footer/>
+        </>
     )
 }

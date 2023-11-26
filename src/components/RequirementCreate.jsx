@@ -117,26 +117,8 @@ export default function RequirementCreate (props){
               <h2>Create a requirement</h2>
               {
                 userState.profileData && 
-              <>
-              <TextField color="customBlue" name="title" id="title" label="title" variant="outlined" type='text' value={title} onChange={(e)=>{setTitle(e.target.value)}} />
-
-              <FormControl>
-                <InputLabel id="category">Select a category</InputLabel>
-                <Select
-                  labelId="category"
-                  label="Select a category"
-                  id="category"
-                  value={categoryId}
-                  onChange={(e)=>{setCategoryId(e.target.value)}}
-                >
-                  {
-                    categories.map(ele=>{
-                      return <MenuItem key={ele._id} value={ele._id}>{ele.name}</MenuItem>
-                    })
-                  }
-                </Select>
-              </FormControl>
-
+              <div style={{display:'grid',gridTemplateColumns:'300px 300px',columnGap:'20px',rowGap:'20px'}}>
+             
 
               <FormControl color="customBlue" variant="standard">
                             <FormLabel id="address">Where would you like the classes to be conducted? </FormLabel>
@@ -158,7 +140,24 @@ export default function RequirementCreate (props){
                             
                 </FormControl><br/>
 
-              <TextField color="customBlue" name="description" id="description" label="description" variant="outlined" type='text'  multiline rows={6}  value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
+                <TextField color="customBlue" name="title" id="title" label="title" variant="outlined" type='text' value={title} onChange={(e)=>{setTitle(e.target.value)}} />
+
+                <FormControl>
+                  <InputLabel id="category">Select a category</InputLabel>
+                  <Select
+                    labelId="category"
+                    label="Select a category"
+                    id="category"
+                    value={categoryId}
+                    onChange={(e)=>{setCategoryId(e.target.value)}}
+                  >
+                    {
+                      categories.map(ele=>{
+                        return <MenuItem key={ele._id} value={ele._id}>{ele.name}</MenuItem>
+                      })
+                    }
+                  </Select>
+                </FormControl>
 
               <FormControl>
                 <InputLabel id="batchSize">Batch Size</InputLabel>
@@ -176,6 +175,8 @@ export default function RequirementCreate (props){
                   }
                 </Select>
               </FormControl>
+
+              <TextField color="customBlue" name="date" id="date" variant="outlined" type='date' helperText="when would you like the classes to commence?" value={commencementDate} onChange={(e)=>{setCommencementDate(e.target.value)}}/>
 
               <FormControl>
                 <InputLabel id="startTime">start time</InputLabel>
@@ -211,9 +212,7 @@ export default function RequirementCreate (props){
                 </Select>
               </FormControl>
 
-              <TextField color="customBlue" name="date" id="date" variant="outlined" type='date' helperText="when would you like the classes to commence?" value={commencementDate} onChange={(e)=>{setCommencementDate(e.target.value)}}/>
-
-              <FormControl sx={{ m: 1, width: 300 }}>
+              <FormControl>
                     <InputLabel id="weekdays-multiple-checkbox">class days</InputLabel>
                     <Select
                       labelId="weekdays-multiple-checkbox"
@@ -232,15 +231,16 @@ export default function RequirementCreate (props){
                         </MenuItem>
                     ))}
                     </Select>
-                </FormControl><br/>
+                </FormControl>
 
               <TextField color="customBlue" name="duration" id="duration" label="duration (in months)" variant="outlined" type='number' value={duration} onChange={(e)=>{setDuration(e.target.value)}}/>
 
               <TextField color="customBlue" name="pay" id="pay" label="Total pay offered (in Rupee)" variant="outlined" type='number'  value={pay} onChange={(e)=>{setPay(e.target.value)}}/><br/>
 
-    
+              <TextField color="customBlue" name="description" id="description" label="description" variant="outlined" type='text'  multiline rows={6}  value={description} onChange={(e)=>{setDescription(e.target.value)}}/><br/>
+
               <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Post requirement</Button>
-              </>
+              </div>
             }
             </Box>
           </ThemeProvider>

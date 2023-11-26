@@ -12,12 +12,13 @@ import AddressForm from './components/AddressForm'
 import RequirementsList from './components/RequirementsList'
 import RequirementCreate from './components/RequirementCreate'
 import RequirementDisplay from './components/RequirementDisplay'
-import logo from './images/cmlogo6.png'
 import ProfileShow from './components/ProfileShow'
 import TutorClassesList from './components/TutorClassesList'
 import startSetClasses from './actions/classesActions'
 import { ClassDetailsDisplay } from './components/ClassDetailsDisplay'
 import PaymentResult from './components/paymentResult'
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 
 
@@ -31,11 +32,6 @@ export function App() {
   const reduxDispatch = useDispatch()
 
   console.log("userState : ",userState)
-
-  function handleLogout() { 
-    localStorage.removeItem('token')
-    userDispatch({type:"LOGOUT_USER"})
-  }
 
   useEffect(()=>{   //get user details and app data on refresh if user is logged in already
     
@@ -108,7 +104,7 @@ export function App() {
   return (
 
     <userContext.Provider value={{userState,userDispatch}}>
-      <div>
+      {/* <div>
         <nav style={{display:"flex",alignItems:'center',justifyContent:"space-between",paddingRight:"20px"}}>
               {
                 Object.keys(userState.userDetails).length ?
@@ -138,23 +134,25 @@ export function App() {
                     <Link to='/login' className='Link'>Login</Link>
                   </div>  //user logged out
               }
-        </nav>
-        <Routes>
-            <Route path='/' element={<Home/>}></Route>
-            <Route path='/register' element={<Register/>}></Route>
-            <Route path='/login' element={<Login/>}></Route>
-            <Route path='/profile'element={<Profile/>}></Route>
-            <Route path='/address' element={<AddressForm/>}></Route>
-            <Route path='/create-requirement' element={<RequirementCreate/>}></Route>
-            <Route path='/myRequirements' element={<RequirementsList/>}></Route>
-            <Route path='/requirements' element={<RequirementsList/>}></Route>
-            <Route path='/requirement/:id' element={<RequirementDisplay/>}></Route>
-            <Route path='/tutor/:tutorId' element={<ProfileShow/>}></Route>
-            <Route path='/classes' element={<TutorClassesList/>}></Route>
-            <Route path='/classes/:classId' element={<ClassDetailsDisplay/>}></Route>
-            <Route path='/create-checkout-session/requirement' element={<PaymentResult/>} ></Route>
-        </Routes>
-      </div>
+        </nav> */}
+        <Header/>
+        <main>
+          <Routes>
+              <Route path='/' element={<Home/>}></Route>
+              <Route path='/register' element={<Register/>}></Route>
+              <Route path='/login' element={<Login/>}></Route>
+              <Route path='/profile'element={<Profile/>}></Route>
+              <Route path='/address' element={<AddressForm/>}></Route>
+              <Route path='/create-requirement' element={<RequirementCreate/>}></Route>
+              <Route path='/myRequirements' element={<RequirementsList/>}></Route>
+              <Route path='/requirements' element={<RequirementsList/>}></Route>
+              <Route path='/requirement/:id' element={<RequirementDisplay/>}></Route>
+              <Route path='/tutor/:tutorId' element={<ProfileShow/>}></Route>
+              <Route path='/classes' element={<TutorClassesList/>}></Route>
+              <Route path='/classes/:classId' element={<ClassDetailsDisplay/>}></Route>
+              <Route path='/create-checkout-session/requirement' element={<PaymentResult/>} ></Route>
+          </Routes>
+        </main>
     </userContext.Provider>
   )
 }
