@@ -47,7 +47,7 @@ export default function RequirementDisplay (props){
                    try{ 
                             //make payment using stripe
                         
-                        const stripeResponse = await axios.post(`/comcraft/classRequirement/checkout`,{payOffered:requirement.payOffered},{
+                        const stripeResponse = await axios.post(`/comcraft/checkout`,{payOffered:requirement.payOffered,requirementId:requirement._id,paymentStatus:'pending'},{
                             headers : {
                                 Authorization : localStorage.getItem('token')
                             }

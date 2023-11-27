@@ -52,6 +52,12 @@ export default function PaymentResult() {
                     })
                     console.log('response after updating',response.data)
                     userDispatch({type:'UPDATE_USER_REQUIREMENT',payload:response.data.requirement})
+                    const updatePaymentStatus = await axios.put(`/comcraft/checkout/${localStorage.getItem('transactionId')}`,null,{
+                        headers:{
+                            Authorization: localStorage.getItem('token')
+                        }
+                    })
+                    console.log('UPDATEDPAYMENT',updatePaymentStatus)
                     setTimeout(()=>{
                         navigateUserToRequirement()
                     },5000)
@@ -64,10 +70,23 @@ export default function PaymentResult() {
                         
         }
         else
-        {   
-            setTimeout(()=>{
-                navigateUserToRequirement()
-            },5000)
+        {   (async function(){
+                    try{
+                        const deletePayment  = await axios.delete(`/comcraft/checkout/${localStorage.getItem('transactionId')}`,{
+                            headers:{
+                                Authorization: localStorage.getItem('token')
+                            }
+                        })
+                        console.log('DELETEDPAYMENT',deletePayment)
+                        setTimeout(()=>{
+                            navigateUserToRequirement()
+                        },5000)
+                    }
+                    catch(err){
+                            console.log(err)
+                    }
+             })()
+           
         }
            
     },[])
