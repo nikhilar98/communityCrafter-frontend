@@ -45,7 +45,7 @@ export default function Footer() {
                 <Typography variant="h6" color="text.primary" gutterBottom>
                 Follow Us
                 </Typography>
-                <Link to="https://www.facebook.com/" target="_blank" color="inherit">
+                <Link to="https://www.linkedin.com/" target="_blank" color="inherit">
                 <LinkedIn />
                 </Link>
                 <Link
