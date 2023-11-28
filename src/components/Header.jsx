@@ -14,7 +14,7 @@ export default function Header() {
 
     return  ( 
         <header style={{position:'sticky',top:'0',zIndex:1000}}>
-            <nav>
+            <nav className="appNav">
               {
                 Object.keys(userState.userDetails).length ?
                   <>

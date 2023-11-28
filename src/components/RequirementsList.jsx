@@ -6,9 +6,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import {isEmpty} from 'lodash'
+import { useNavigate } from "react-router-dom";
 import Map from "./MapContainer";
 import { Box, CircularProgress, Slider, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
@@ -18,6 +18,7 @@ export default function RequirementsList (props){
     const {userState,userDispatch} = useContext(userContext) 
     const [view,setView] = useState('list')
     const [searchText,setSearchText] = useState('')
+    const [pageNo,setPageNo] = useState(1)
     const [isLoading,setisLoading] = useState(true)
     const role = userState.userDetails.role
     const categories = useSelector((state)=>{
@@ -29,6 +30,10 @@ export default function RequirementsList (props){
     function handleChange(e){
         setView(e.target.value)
     }
+    const handlePageChange = (event, value) => {
+        setPageNo(value);
+      };
+
     const filteredRequirements = userState.requirements.filter(ele=>ele.title.includes(searchText))
     
     useEffect(()=>{
@@ -64,6 +69,8 @@ export default function RequirementsList (props){
                 
             })()
     },[role,userState.requirementsSortingOrder,userState.searchDistance])
+
+    console.log(pageNo)
 
     return ( 
         <div>
@@ -132,8 +139,8 @@ export default function RequirementsList (props){
             <div>
                 {   
                     
-                    filteredRequirements.map(ele=>{
-                        return <Card variant="outlined" sx={{ maxWidth: 800,m: 1.5,backgroundColor:'rgb(242, 243, 243)' }} key={ele._id}>
+                    filteredRequirements.slice(pageNo*3-3,pageNo*3).map(ele=>{
+                        return <Card variant="outlined" sx={{ maxWidth: 800,m: 1.5,backgroundColor:'rgb(242, 243, 243)'}} key={ele._id}>
                                     <CardContent>
                                         <div style={{display:"flex",alignItems:'center',justifyContent:'space-between'}}>
                                         <Typography variant="h4" color="text.secondary" gutterBottom>
@@ -160,6 +167,7 @@ export default function RequirementsList (props){
                                 </Card>
                     })
                 }
+                <Pagination sx={{display:'flex',justifyContent:'center'}} count={Math.ceil(filteredRequirements.length/3)} value={pageNo} onChange={handlePageChange}/>
             </div>
 
             : 
@@ -172,7 +180,7 @@ export default function RequirementsList (props){
              </>
             }
 
-
+        
         </div>
     )
 }
