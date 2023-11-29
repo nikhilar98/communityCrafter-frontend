@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { userContext } from "../App"
 import { ThemeProvider } from "@emotion/react"
-import { Box, Button, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField, CircularProgress } from "@mui/material"
+import { Box, Button, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField, CircularProgress, FormHelperText } from "@mui/material"
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -23,12 +23,28 @@ export default function ProfileForm() {
     const [teachingCategories,setTeachingCategories] = useState([])
     const [files,setFiles] = useState([])
     const [isSubmittingForm,setIsSubmittingForm] = useState(false)
+    const [serverErrors,setServerErrors] = useState([])
+    const [formErrors,setFormErrors] = useState({})
+    const errors= {} 
     
     
     console.log(address)
     console.log(categoriesSelected)
     console.log(files)
 
+    function runValidations(){
+        if(!bio){
+            errors.bio = 'bio is required'
+        }
+        if(!address){ 
+            errors.address = 'address is required'  
+        }
+        if(categoriesSelected.length==0){
+            errors.categoriesSelected = 'Atleast 1 Category required.'
+        }
+    }
+
+    console.log('---------------------------------------',serverErrors)
     const categories= useSelector((state)=>{
         return state.categories
     })
@@ -77,55 +93,83 @@ export default function ProfileForm() {
 
     async function handleSubmitCmHead(e){
         e.preventDefault()
-        setIsSubmittingForm(true) 
-        const formData = { 
-            address
-        }
-       try{
-            const response = await axios.post('/comcraft/communityHead/createProfile',formData,{
-                headers:{
-                    Authorization : localStorage.getItem('token')
-                }
-            })
-            console.log(response.data)
-            setIsSubmittingForm(false)
-            userDispatch({type:'SET_USER_PROFILE',payload:response.data})
-       }
-       catch(err){
-            console.log(err)
-       }
+        setServerErrors([])
+        runValidations() 
+
+        if(Object.keys(errors).length==0){
+
+            setFormErrors({})
+
+            setIsSubmittingForm(true) 
+            const formData = { 
+                address
+            }
+            try{
+                    const response = await axios.post('/comcraft/communityHead/createProfile',formData,{
+                        headers:{
+                            Authorization : localStorage.getItem('token')
+                        }
+                    })
+                    console.log(response.data)
+                    setIsSubmittingForm(false)
+                    userDispatch({type:'SET_USER_PROFILE',payload:response.data})
+            }
+            catch(err){
+                    console.log(err)
+                    setIsSubmittingForm(false)
+                    setServerErrors(err.response.data.errors)
+            }
+
+     }
+     else { 
+        setFormErrors(errors)
+     }
         
     }
 
 
     async function handleSubmitTeacher(e) { 
         e.preventDefault() 
-        setIsSubmittingForm(true)
-        const formData = new FormData() 
 
-        formData.append('bio',bio)
-        formData.append('address',address)
-        formData.append('teachingCategories',JSON.stringify(teachingCategories))
-        
-        files.forEach((obj)=>{
-              Object.values(obj.uploadedFiles).forEach((file)=>{
-                formData.append(obj.name,file)
-            })
-        })
-       
-        try{
-            const response = await axios.post('/comcraft/teacher/createProfile',formData,{
-                headers:{
-                    'Content-Type' : "multipart/form-data",
-                    Authorization : localStorage.getItem('token')
+        setServerErrors([])
+        runValidations() 
+
+        if(Object.keys(errors).length==0){
+                setFormErrors({})
+
+                setIsSubmittingForm(true)
+                const formData = new FormData() 
+
+                formData.append('bio',bio)
+                formData.append('address',address)
+                formData.append('teachingCategories',JSON.stringify(teachingCategories))
+                
+                files.forEach((obj)=>{
+                    Object.values(obj.uploadedFiles).forEach((file)=>{
+                        formData.append(obj.name,file)
+                    })
+                })
+            
+                try{
+                    const response = await axios.post('/comcraft/teacher/createProfile',formData,{
+                        headers:{
+                            'Content-Type' : "multipart/form-data",
+                            Authorization : localStorage.getItem('token')
+                        }
+                    })
+                    setIsSubmittingForm(false)
+                    userDispatch({type:'SET_USER_PROFILE',payload:response.data})
                 }
-            })
-            setIsSubmittingForm(false)
-            userDispatch({type:'SET_USER_PROFILE',payload:response.data})
+                catch(err){
+                    console.log(err)
+                    setIsSubmittingForm(false)
+                    setServerErrors(err.response.data.errors)
+                }
         }
-        catch(err){
-            console.log(err)
+        else { 
+            setFormErrors(errors)
         }
+        
         
     }
 
@@ -164,9 +208,9 @@ export default function ProfileForm() {
                 {   userState.userDetails.role=='teacher' && 
                 
                 (<>
-                <TextField color="customBlue" name="bio" id="bio" label="bio" variant="outlined" type='text' value={bio} onChange={(e)=>{setBio(e.target.value)}} multiline rows={6} helperText="Bio"/><br/></>)}
+                <TextField color="customBlue" name="bio" id="bio" label="bio" variant="outlined" type='text' value={bio} onChange={(e)=>{setBio(e.target.value)}} multiline rows={6} error={Boolean(formErrors.bio)|| Boolean(serverErrors.find(ele=>ele.path=='bio'))} helperText={(formErrors.bio && formErrors.bio)||(serverErrors.find(ele=>ele.path=='bio') && serverErrors.find(ele=>ele.path=='bio').msg)||"Bio"}/><br/></>)}
 
-                <FormControl color="customBlue" variant="standard">
+                <FormControl color="customBlue" variant="standard" error={Boolean(formErrors.address)|| Boolean(serverErrors.find(ele=>ele.path=='address'))}>
                             <FormLabel id="addresses">Select an address</FormLabel>
                             <RadioGroup
                             aria-labelledby="addresses"
@@ -184,36 +228,39 @@ export default function ProfileForm() {
                                 })
                             }
                             </RadioGroup>
-                            
+                            <FormHelperText>{(formErrors.address && formErrors.address)||(serverErrors.find(ele=>ele.path=='address') && serverErrors.find(ele=>ele.path=='address').msg)}</FormHelperText>
                 </FormControl><br/>
                 or <Link to='/address'>Create new Address</Link><br/><br/><br/>
 
-                {userState.userDetails.role=='teacher' && (<><FormControl sx={{ m: 1, width: 300 }}>
+                {userState.userDetails.role=='teacher' && (
+                    <>
+                    <FormControl sx={{ m: 1, width: 300 }} error={Boolean(formErrors.categoriesSelected)}>
                     <InputLabel id="category-multiple-checkbox">Select a teaching field</InputLabel>
-                    <Select
-                    labelId="category-multiple-checkbox"
-                    id="category-multiple-checkbox"
-                    multiple
-                    value={categoriesSelected}
-                    onChange={handleChange}
-                    input={<OutlinedInput label="Select a teaching field" />}
-                    renderValue={(selected) =>{
-                        // Map selected IDs to their corresponding names
-                        const selectedNames = categories
-                          .filter((ele) => selected.indexOf(ele._id) > -1)
-                          .map((ele) => ele.name);
-                  
-                        return selectedNames.join(', ');
-                      }}
-                    MenuProps={MenuProps}
-                    >
-                    {categories.map((ele) => (
-                        <MenuItem key={ele._id} value={ele._id}>
-                            <Checkbox checked={categoriesSelected.indexOf(ele._id) > -1} />
-                            <ListItemText primary={ele.name} />
-                        </MenuItem>
-                    ))}
-                    </Select>
+                        <Select
+                        labelId="category-multiple-checkbox"
+                        id="category-multiple-checkbox"
+                        multiple
+                        value={categoriesSelected}
+                        onChange={handleChange}
+                        input={<OutlinedInput label="Select a teaching field" />}
+                        renderValue={(selected) =>{
+                            // Map selected IDs to their corresponding names
+                            const selectedNames = categories
+                            .filter((ele) => selected.indexOf(ele._id) > -1)
+                            .map((ele) => ele.name);
+                    
+                            return selectedNames.join(', ');
+                        }}
+                        MenuProps={MenuProps}
+                        >
+                        {categories.map((ele) => (
+                            <MenuItem key={ele._id} value={ele._id}>
+                                <Checkbox checked={categoriesSelected.indexOf(ele._id) > -1} />
+                                <ListItemText primary={ele.name} />
+                            </MenuItem>
+                        ))}
+                        </Select>
+                    <FormHelperText>{(formErrors.categoriesSelected && formErrors.categoriesSelected)}</FormHelperText>
                 </FormControl><br/>
 
                 {
@@ -232,8 +279,9 @@ export default function ProfileForm() {
                         </fieldset>
                     })
                 }
-
-                </>)}
+                    <span style={{color:'red'}}>{serverErrors.find(ele=>ele.path=='teachingCategories') && serverErrors.find(ele=>ele.path=='teachingCategories').msg}</span>
+                </>
+                )}
 
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                     <Button id="save_profile" variant="contained" size='large' type='submit' color="customYellow" disabled={isSubmittingForm}>Save Profile</Button>
