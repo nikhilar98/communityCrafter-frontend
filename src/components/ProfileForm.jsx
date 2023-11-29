@@ -32,7 +32,7 @@ export default function ProfileForm() {
     console.log(categoriesSelected)
     console.log(files)
 
-    function runValidations(){
+    function runValidationsTeacher(){
         if(!bio){
             errors.bio = 'bio is required'
         }
@@ -42,6 +42,13 @@ export default function ProfileForm() {
         if(categoriesSelected.length==0){
             errors.categoriesSelected = 'Atleast 1 Category required.'
         }
+    }
+    function runValidationsCmHead(){
+      
+        if(!address){ 
+            errors.address = 'address is required'  
+        }
+       
     }
 
     console.log('---------------------------------------',serverErrors)
@@ -94,10 +101,11 @@ export default function ProfileForm() {
     async function handleSubmitCmHead(e){
         e.preventDefault()
         setServerErrors([])
-        runValidations() 
+        runValidationsCmHead() 
+        console.log(errors)
 
         if(Object.keys(errors).length==0){
-
+            console.log('hello')
             setFormErrors({})
 
             setIsSubmittingForm(true) 
@@ -122,6 +130,7 @@ export default function ProfileForm() {
 
      }
      else { 
+        console.log('error block')
         setFormErrors(errors)
      }
         
@@ -132,7 +141,7 @@ export default function ProfileForm() {
         e.preventDefault() 
 
         setServerErrors([])
-        runValidations() 
+        runValidationsTeacher() 
 
         if(Object.keys(errors).length==0){
                 setFormErrors({})
