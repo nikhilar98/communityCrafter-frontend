@@ -20,7 +20,7 @@ export default function TutorClassesList() {
     return ( 
         <div>
            { 
-             isEmpty(classes) ? <p>You have no active classes</p> : 
+             isEmpty(classes) ? <p>You have no active commitments</p> : 
               <div>
              { 
                 classes.map(ele=>{

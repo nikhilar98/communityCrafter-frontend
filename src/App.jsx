@@ -19,6 +19,7 @@ import { ClassDetailsDisplay } from './components/ClassDetailsDisplay'
 import PaymentResult from './components/paymentResult'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import TutorsListing from './components/TutorsListing'
 
 
 
@@ -120,6 +121,7 @@ export function App() {
               <Route path='/classes' element={<TutorClassesList/>}></Route>
               <Route path='/classes/:classId' element={<ClassDetailsDisplay/>}></Route>
               <Route path='/create-checkout-session/requirement' element={<PaymentResult/>} ></Route>
+              <Route path='/tutors' element={<TutorsListing/>}></Route>
           </Routes>
         </main>
     </userContext.Provider>

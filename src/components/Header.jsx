@@ -23,9 +23,10 @@ export default function Header() {
                       <Link to='/' className='Link'>Home</Link>
                       {['communityHead','teacher'].includes(userState.userDetails.role) && <Link to='/profile' className='Link'>Profile</Link>}
                       {userState.userDetails.role=='teacher' && <Link to='/requirements' className='Link'>Community Requirements</Link>}
-                      {userState.userDetails.role=='teacher' && <Link to='/classes' className='Link'>My classes</Link>}
+                      {userState.userDetails.role=='teacher' && <Link to='/classes' className='Link'>My commitments</Link>}
                       {userState.userDetails.role=='communityHead' && <Link to='/create-requirement' className='Link'>Create requirement</Link>}
                       {userState.userDetails.role=='communityHead' && <Link to='/myRequirements' className='Link'>My requirements</Link>}
+                      {userState.userDetails.role=='communityHead' && <Link to='/tutors' className='Link'>Tutors</Link>}
                     </div>
                     <div style={{display:"flex",alignItems:'center',justifyContent:"center"}}>
                       <Link to='/' className='Link' onClick={handleLogout}>Logout</Link>
