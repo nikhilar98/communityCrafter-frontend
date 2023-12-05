@@ -1,4 +1,4 @@
 import axios from 'axios' 
 export default axios.create({
-    baseURL:'http://localhost:3636'
+    baseURL:'https://communitycrafter.onrender.com'  //'http://localhost:3636'
 })
