@@ -16,9 +16,8 @@ import ProfileShow from './components/ProfileShow'
 import TutorClassesList from './components/TutorClassesList'
 import startSetClasses from './actions/classesActions'
 import { ClassDetailsDisplay } from './components/ClassDetailsDisplay'
-import PaymentResult from './components/paymentResult'
+import PaymentResult from './components/PaymentResult'
 import Header from './components/Header'
-import Footer from './components/Footer'
 import TutorsListing from './components/TutorsListing'
 
 
