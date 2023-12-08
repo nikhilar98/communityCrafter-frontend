@@ -3,12 +3,15 @@ import "leaflet/dist/leaflet.css"
 import { useNavigate } from 'react-router-dom';
 import L from 'leaflet';
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default,
-    iconUrl: require('leaflet/dist/images/marker-icon.png').default,
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png').default
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow
 });
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function Map(props){ 
 
