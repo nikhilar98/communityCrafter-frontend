@@ -1,5 +1,4 @@
-import { Circle, MapContainer, Marker, Popup, TileLayer, Tooltip, useMap } from 'react-leaflet'
-import * as L from "leaflet";
+import { Circle, MapContainer, Marker, TileLayer, Tooltip } from 'react-leaflet'
 import "leaflet/dist/leaflet.css"
 import { useNavigate } from 'react-router-dom';
 export default function Map(props){ 
@@ -10,13 +9,7 @@ export default function Map(props){
     console.log('teacherLocation',teacherLocation)
     console.log('categories',categories)
     console.log('requirements',requirements)
-    // const LeafIcon = L.Icon.extend({
-    //     options: {}
-    //   });
-    // const greenIcon = new LeafIcon({
-    //     iconUrl:
-    //       "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2ecc71&chf=a,s,ee00FFFF"
-    //   });
+  
     return (
         <div>
            <MapContainer center={teacherLocation} zoom={11} scrollWheelZoom={true} style={{ height: "500px", width: '80%',marginLeft:'40px' }}>
