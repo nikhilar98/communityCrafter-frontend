@@ -48,6 +48,7 @@ export default function RequirementsList (props){
                         console.log('teacher requirements',requirements.data) 
                         setisLoading(false) 
                         userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
+                        setPageNo(1)
                         
                     }
                     else if(role=='communityHead'){
@@ -59,6 +60,7 @@ export default function RequirementsList (props){
                         console.log('cmhead requirements',requirements.data) 
                         setisLoading(false)
                         userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
+                        setPageNo(1)
                         
                     }
                 }
