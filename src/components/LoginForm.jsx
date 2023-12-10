@@ -12,6 +12,7 @@ import { userContext } from '../App';
 import theme from '../appTheme';
 import startSetClasses from '../actions/classesActions';
 import { useDispatch } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function LoginForm() {
 
@@ -19,6 +20,7 @@ export default function LoginForm() {
     const [serverErrors,setServerErrors] = useState([])
     const {userDispatch} = useContext(userContext)
     const reduxDispatch = useDispatch()
+    const [isLoading,setIsLoading] = useState(false)
     const notify = (msg) => toast.error(msg);
 
     useEffect(()=>{
@@ -43,6 +45,7 @@ export default function LoginForm() {
       validateOnBlur:false,
       onSubmit:async (values)=>{
         try{
+          setIsLoading(true)
           const response = await axios.post('/comcraft/login',values)
           localStorage.setItem('token',response.data.token)
 
@@ -71,8 +74,9 @@ export default function LoginForm() {
           if(userDetails.data.role=='teacher'){
             reduxDispatch(startSetClasses())
           }
-          navigate('/')
           setServerErrors([])
+          setIsLoading(false)
+          navigate('/')
         }
         catch(err){
           console.log(err)
@@ -94,6 +98,7 @@ export default function LoginForm() {
           <TextField color="customBlue" name="password" id="password" label={formik.errors.password || serverErrors.find(ele=>ele.path=='password') ? "Error":"password"} variant="filled" type='password' value={formik.password} onChange={formik.handleChange} error={Boolean(formik.errors.password)|| Boolean(serverErrors.find(ele=>ele.path=='password'))} helperText={(formik.errors.password && formik.errors.password) || (serverErrors.find(ele=>ele.path=='password') && serverErrors.find(ele=>ele.path=='password').msg)}/><br/>
           
           <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Login</Button>
+          {isLoading && <CircularProgress color="success" />}
           <p>New User ? <Link to='/register'>Register</Link></p>
         </Box>
       </ThemeProvider>
