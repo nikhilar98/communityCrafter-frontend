@@ -97,7 +97,7 @@ export default function LoginForm() {
 
           <TextField color="customBlue" name="password" id="password" label={formik.errors.password || serverErrors.find(ele=>ele.path=='password') ? "Error":"password"} variant="filled" type='password' value={formik.password} onChange={formik.handleChange} error={Boolean(formik.errors.password)|| Boolean(serverErrors.find(ele=>ele.path=='password'))} helperText={(formik.errors.password && formik.errors.password) || (serverErrors.find(ele=>ele.path=='password') && serverErrors.find(ele=>ele.path=='password').msg)}/><br/>
           
-          <div style={{display:'flex',alignItems:'center'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'20px'}}>
             <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Login</Button>
             {isLoading && <CircularProgress color="success" />}
           </div>
