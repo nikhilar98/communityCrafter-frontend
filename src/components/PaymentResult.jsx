@@ -60,7 +60,7 @@ export default function PaymentResult() {
                     console.log('UPDATEDPAYMENT',updatePaymentStatus)
                     setTimeout(()=>{
                         navigateUserToRequirement()
-                    },5000)
+                    },2000)
                 }
                 catch(err){
                     console.log(err)
@@ -80,7 +80,7 @@ export default function PaymentResult() {
                         console.log('DELETEDPAYMENT',deletePayment)
                         setTimeout(()=>{
                             navigateUserToRequirement()
-                        },5000)
+                        },2000)
                     }
                     catch(err){
                             console.log(err)
