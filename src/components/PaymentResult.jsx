@@ -60,7 +60,7 @@ export default function PaymentResult() {
                     console.log('UPDATEDPAYMENT',updatePaymentStatus)
                     setTimeout(()=>{
                         navigateUserToRequirement()
-                    },2000)
+                    },1000)
                 }
                 catch(err){
                     console.log(err)
@@ -113,7 +113,7 @@ export default function PaymentResult() {
                     <Box sx={style}>
                         <Typography variant="h6" component="h2">uh ohh... Payment failed!</Typography>
                         <CircularProgress color='secondary'/><br/><br/>
-                        <Button variant="contained" color="customRed" onClick={navigateUserToRequirement}>Retry</Button>                                          
+                        <Button variant="contained" color="customRed" onClick={navigateUserToRequirement}>Back to Requirement</Button>                                          
                     </Box>
             </Modal> 
         </ThemeProvider>
