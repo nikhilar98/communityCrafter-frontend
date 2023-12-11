@@ -80,6 +80,7 @@ export default function LoginForm() {
         }
         catch(err){
           console.log(err)
+          setIsLoading(false)
           setServerErrors(err.response.data.errors)
         }
           
