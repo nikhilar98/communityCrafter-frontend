@@ -1,4 +1,4 @@
-![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/42ad267d-b031-4425-b631-d0015b6ee13f)Live link : <a>https://community-crafter-frontend.vercel.app/</a>
+Live link : <a>https://community-crafter-frontend.vercel.app/</a>
 
 Project Name : Community Crafter
 
