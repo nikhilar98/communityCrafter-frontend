@@ -31,7 +31,7 @@ Formik and Yup for handling form validation and form state management. Map listi
 
 <strong>Screenshots</strong>
 
-Community Head features :
+<strong>Community Head features :</strong>
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/e250d3c6-21b1-4d2c-bcec-149dc27bc303)
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/a50bc35d-73c1-49df-be73-142700fbf10b)
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/87dd804e-2a98-407b-b947-77950e50f986)
@@ -51,7 +51,7 @@ accepting proposal
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/c61ca961-1126-46d8-9be5-fe6847b93586)
 
 
-Tutor Features : 
+<strong>Tutor Features : </strong>
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/a91a2f37-82b4-484e-8152-93aefae47d44)
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/b07b512a-cc61-4715-a2db-f7ada91e13cb)
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/53b7b885-5be8-406c-8385-3a7da66435f6)
@@ -61,6 +61,7 @@ Tutor Features :
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/5fe0609d-c2f9-4b3b-9282-f7e1b0906520)
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/667509de-db9c-4800-a18e-c1062afd9ad8)
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/8894813c-64e3-4dc1-b781-3fcf9146018b)
+My commitments page
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/dbe0197e-95a0-4995-bb58-b5545b85e5e6)
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/cbdc11bc-f243-4084-9a3c-ca9f37671ab1)
 
