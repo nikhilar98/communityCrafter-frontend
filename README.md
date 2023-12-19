@@ -1,4 +1,4 @@
-Live link : <a>https://community-crafter-frontend.vercel.app/</a>
+![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/addc8152-0142-41cb-a703-a78a48aa290b)Live link : <a>https://community-crafter-frontend.vercel.app/</a>
 
 Project Name : Community Crafter
 
@@ -17,6 +17,9 @@ User Authentication and Profiles: Implemented user authentication functionalitie
 Dynamic Data Display: Utilized React and other modern frontend frameworks to dynamically display community requirement details and availability.
 
 Map view : Available community requirements within a set distance by the tutor can be viewed in a map .
+
+<strong>Screenshots</strong>
+![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/6624ffad-30f2-4fc0-b319-07b209110cdc)
 
 <strong>Technologies Used:</strong>
 
