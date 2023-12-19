@@ -24,7 +24,7 @@ Email notifications  : Community head receives an email notification when his/he
 
 Community Crafter is a Fullstack web application. ReactJS and MaterialUI on frontend. NodeJS along with ExpressJS on Backend. MongoDB with Mongoose as a Database. Redux with Thunk is used for Managing Global state and UseReducer with ContextAPI Hook is used for maintaining User State.
 
-JsonWebToken based Authentication, Role Management fuctionality for user to have the right amount of access of data and permission. Bcrypt.js for Password Encryption, Express Validator for middleware level validation and sanitization with loadsh.AWS S3 along with Multer is used for capturing and storing multiple images and made use of Nodemailer for Email notifications/verification.
+JsonWebToken based Authentication, Role Management fuctionality for user to have the right amount of access of data and permission. Bcrypt.js for Password Encryption, Express Validator for middleware level validation and sanitization with lodash. AWS S3 along with Multer is used for capturing and storing multiple images and made use of Nodemailer for Email notifications/verification. 
 
 Formik and Yup for handling form validation and form state management. Map listing functionality using React leaflet library. Integrated Payment gateway using Stripe.
 
