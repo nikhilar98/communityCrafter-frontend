@@ -20,6 +20,15 @@ Map view : Available community requirements within a set distance by the tutor c
 
 Email notifications  : Community head receives an email notification when his/her requirement receives a new proposal. The tutor also recieves a confirmation email when his/her proposal is accepted by a community head.
 
+<strong>Technologies Used:</strong>
+
+Community Crafter is a Fullstack web application. ReactJS and MaterialUI on frontend. NodeJS along with ExpressJS on Backend. MongoDB with Mongoose as a Database. Redux with Thunk is used for Managing Global state and UseReducer with ContextAPI Hook is used for maintaining User State.
+
+JsonWebToken based Authentication, Role Management fuctionality for user to have the right amount of access of data and permission. Bcrypt.js for Password Encryption, Express Validator for middleware level validation and sanitization with loadsh.AWS S3 along with Multer is used for capturing and storing multiple images and made use of Nodemailer for Email notifications/verification.
+
+Formik and Yup for handling form validation and form state management. Map listing functionality using React leaflet library. Integrated Payment gateway using Stripe.
+
+
 <strong>Screenshots</strong>
 
 Community Head features :
@@ -56,10 +65,3 @@ Tutor Features :
 ![image](https://github.com/nikhilar98/communityCrafter-frontend/assets/132832328/cbdc11bc-f243-4084-9a3c-ca9f37671ab1)
 
 
-<strong>Technologies Used:</strong>
-
-Community Crafter is a Fullstack web application. ReactJS and MaterialUI on frontend. NodeJS along with ExpressJS on Backend. MongoDB with Mongoose as a Database. Redux with Thunk is used for Managing Global state and UseReducer with ContextAPI Hook is used for maintaining User State.
-
-JsonWebToken based Authentication, Role Management fuctionality for user to have the right amount of access of data and permission. Bcrypt.js for Password Encryption, Express Validator for middleware level validation and sanitization with loadsh.AWS S3 along with Multer is used for capturing and storing multiple images and made use of Nodemailer for Email notifications/verification.
-
-Formik and Yup for handling form validation and form state management. Map listing functionality using React leaflet library. Integrated Payment gateway using Stripe.
