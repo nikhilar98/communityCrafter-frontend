@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { userContext } from "../App"
+import { userContext } from "../../App"
 import {isEmpty} from 'lodash'
 import ProfileDisplay from "./ProfileDisplay"
 import ProfileForm from "./ProfileForm"

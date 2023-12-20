@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom'
 import RegistrationForm from './RegistrationForm'
-import Footer from './Footer'
+import Footer from '../Generic/Footer'
 export default function Register(){ 
     
     

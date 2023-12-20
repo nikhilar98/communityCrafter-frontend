@@ -10,10 +10,10 @@ import FormHelperText from '@mui/material/FormHelperText';
 import {ThemeProvider  } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from '../axios/axios';
+import axios from '../../axios/axios';
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
-import theme from '../appTheme';
+import theme from '../../appTheme';
 
 
 export default function RegistrationForm() {

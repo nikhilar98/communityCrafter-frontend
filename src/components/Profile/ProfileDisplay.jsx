@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { userContext } from "../App"
+import { userContext } from "../../App"
 import { useSelector } from "react-redux"
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';

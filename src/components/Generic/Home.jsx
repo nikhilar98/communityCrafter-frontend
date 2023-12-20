@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { userContext } from "../App"
+import { userContext } from "../../App"
 import Footer from "./Footer"
 import Example from "./Carousel"
 import CarouselContainer from "./Carousel"

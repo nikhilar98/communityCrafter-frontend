@@ -1,11 +1,11 @@
 import { useState,useEffect, useRef, useContext } from "react"
 import { useParams } from "react-router-dom"
-import axios from "../axios/axios"
+import axios from "../../axios/axios"
 import { Box, Button, Card, CardContent, CardMedia, Rating, TextField, ThemeProvider, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
 import _ from 'lodash'
-import theme from "../appTheme"
-import { userContext } from "../App"
+import theme from "../../appTheme"
+import { userContext } from "../../App"
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -91,7 +91,6 @@ export default function ProfileShow(){
             rating:rating,
             reviewText:comment
         }
-        console.log(formData)
 
         try{
             const response= await axios.post(`/comcraft/teacherReview/${tutorId}`,formData,{

@@ -1,24 +1,24 @@
 import {Link,Routes,Route} from 'react-router-dom'
-import Home from './components/Home'
-import Login from './components/Login'
-import Register from './components/Register'
+import Home from './components/Generic/Home'
+import Login from './components/Login/Login'
+import Register from './components/Register/Register'
 import { useReducer,createContext, useEffect } from 'react'
 import userReducer from './useReducerHook-reducers/userReducer'
 import axios from './axios/axios'
-import Profile from './components/Profile'
+import Profile from './components/Profile/Profile'
 import { useDispatch } from 'react-redux'
 import { startSetCategories } from './actions/categoryActions'
-import AddressForm from './components/AddressForm'
-import RequirementsList from './components/RequirementsList'
-import RequirementCreate from './components/RequirementCreate'
-import RequirementDisplay from './components/RequirementDisplay'
-import ProfileShow from './components/ProfileShow'
-import TutorClassesList from './components/TutorClassesList'
+import AddressForm from './components/Profile/AddressForm'
+import RequirementsList from './components/Requirements/RequirementsList'
+import RequirementCreate from './components/Requirements/RequirementCreate'
+import RequirementDisplay from './components/Requirements/RequirementDisplay'
+import ProfileShow from './components/Profile/ProfileShow'
+import TutorClassesList from './components/Profile/TutorClassesList'
 import startSetClasses from './actions/classesActions'
-import { ClassDetailsDisplay } from './components/ClassDetailsDisplay'
-import PaymentResult from './components/PaymentResult'
-import Header from './components/Header'
-import TutorsListing from './components/TutorsListing'
+import { ClassDetailsDisplay } from './components/Requirements/ClassDetailsDisplay'
+import PaymentResult from './components/Payment/PaymentResult'
+import Header from './components/Generic/Header'
+import TutorsListing from './components/Profile/TutorsListing'
 
 
 
@@ -31,7 +31,6 @@ export function App() {
 
   const reduxDispatch = useDispatch()
 
-  console.log("userState : ",userState)
 
   useEffect(()=>{   //get app data on first load or on refresh .also user relevant data if user is logged in already
     
@@ -75,7 +74,6 @@ export function App() {
                       Authorization: localStorage.getItem('token')
                   }
                   })  //for getting all pending community requirements based on teachers location
-                  console.log('teacher requirements',requirements.data)  
                   userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
               }
             }
@@ -88,6 +86,7 @@ export function App() {
                 userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
                 
             }
+
             if(userDetails.data.role=='teacher'){
               reduxDispatch(startSetClasses())
             }

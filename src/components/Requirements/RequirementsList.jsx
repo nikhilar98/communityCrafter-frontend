@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
-import { userContext } from "../App"
-import axios from "../axios/axios"
+import { userContext } from "../../App"
+import axios from "../../axios/axios"
 import { ToastContainer, toast } from 'react-toastify';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Map from "./MapContainer";
+import Map from "../Map/MapContainer";
 import { Box, CircularProgress, Slider, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 export default function RequirementsList (props){ 
@@ -45,7 +45,6 @@ export default function RequirementsList (props){
                             Authorization: localStorage.getItem('token')
                         }
                         })  //for getting all pending community requirements based on teachers location
-                        console.log('teacher requirements',requirements.data) 
                         setisLoading(false) 
                         userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
                         setPageNo(1)
@@ -57,7 +56,6 @@ export default function RequirementsList (props){
                             Authorization: localStorage.getItem('token')
                         }
                         }) //for getting all requirements created by a cm head
-                        console.log('cmhead requirements',requirements.data) 
                         setisLoading(false)
                         userDispatch({type:"SET_USER_REQUIREMENTS",payload:requirements.data})
                         setPageNo(1)
@@ -65,14 +63,11 @@ export default function RequirementsList (props){
                     }
                 }
                 catch(err){
-                    console.log(err)
                     notify(err.response.data.errors[0].msg)
                 }
                 
             })()
     },[role,userState.requirementsSortingOrder,userState.searchDistance])
-
-    console.log(pageNo)
 
     return ( 
         <div>

@@ -3,7 +3,7 @@ import LoginForm from "./LoginForm"
 import { useLocation } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from "./Footer";
+import Footer from "../Generic/Footer";
 
 export default function Login(){ 
 

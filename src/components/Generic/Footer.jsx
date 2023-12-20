@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 import {Container,Typography,Grid,Box, ThemeProvider} from "@mui/material";
 import { LinkedIn, Instagram, Twitter, YouTube } from "@mui/icons-material";
-import theme from "../appTheme";
-// import instalogo from '../images/icons8-instagram-30.png'
-// import linkedinlogo from '../images/icons8-linkedin-30.png'
-// import twitterlogo from '../images/icons8-twitter-30.png'
-// import youtubelogo from '../images/icons8-youtube-30.png'
+import theme from "../../appTheme";
 
 export default function Footer() {
     return (

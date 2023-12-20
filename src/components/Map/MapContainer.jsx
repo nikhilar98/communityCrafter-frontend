@@ -18,9 +18,6 @@ export default function Map(props){
     const {requirements,teacherLocation,categories} = props
     const navigate = useNavigate()
 
-    console.log('teacherLocation',teacherLocation)
-    console.log('categories',categories)
-    console.log('requirements',requirements)
   
     return (
         <div>
@@ -37,7 +34,6 @@ export default function Map(props){
             <Marker position={teacherLocation}><Tooltip>Your address</Tooltip></Marker>
             {
                 requirements.map((ele,i) => { 
-                    console.log(ele)
                     return <Marker position={ele.address.location.coordinates.reverse()} key={ele._id} eventHandlers={{
                         click: () => {
                             navigate(`/requirement/${ele._id}`)

@@ -1,7 +1,7 @@
 import { useContext } from "react"
-import { userContext } from "../App"
+import { userContext } from "../../App"
 import { Link } from "react-router-dom"
-import logo from '../images/cmlogo6.png'
+import logo from '../../images/cmlogo6.png'
 
 export default function Header() {
 

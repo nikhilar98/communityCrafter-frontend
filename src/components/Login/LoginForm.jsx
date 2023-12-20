@@ -4,13 +4,13 @@ import Button from '@mui/material/Button';
 import { ThemeProvider  } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import axios from '../axios/axios';
+import axios from '../../axios/axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify';
-import { userContext } from '../App';
-import theme from '../appTheme';
-import startSetClasses from '../actions/classesActions';
+import { userContext } from '../../App';
+import theme from '../../appTheme';
+import startSetClasses from '../../actions/classesActions';
 import { useDispatch } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -79,7 +79,6 @@ export default function LoginForm() {
           navigate('/')
         }
         catch(err){
-          console.log(err)
           setIsLoading(false)
           setServerErrors(err.response.data.errors)
         }

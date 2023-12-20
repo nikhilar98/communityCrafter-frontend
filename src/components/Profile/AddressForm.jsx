@@ -4,12 +4,12 @@ import Button from '@mui/material/Button';
 import { ThemeProvider  } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import axios from '../axios/axios';
+import axios from '../../axios/axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { ToastContainer, toast } from 'react-toastify';
-import { userContext } from '../App';
-import theme from '../appTheme';
+import { userContext } from '../../App';
+import theme from '../../appTheme';
 
 export default function AddressForm() {
 
@@ -51,7 +51,6 @@ export default function AddressForm() {
           setServerErrors([])
         }
         catch(err){
-          console.log(err)
           setServerErrors(err.response.data.errors)
         }
           

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react"
-import axios from "../axios/axios"
-import { userContext } from "../App"
+import axios from "../../axios/axios"
+import { userContext } from "../../App"
 import { useLocation, useNavigate } from "react-router-dom"
 import queryString from 'query-string'
 import { ThemeProvider } from "@emotion/react"
-import theme from "../appTheme"
+import theme from "../../appTheme"
 import { Box, Button, CircularProgress, Modal, Typography } from "@mui/material"
 
 const style = {
@@ -27,8 +27,7 @@ export default function PaymentResult() {
     const location = useLocation()
     const navigate  = useNavigate()
     const { search } = location;  //location.search is the query string  eg: ?success=true or ?canceled=true
-    console.log('parse result of query',queryString.parse(search)) //parses the query string into an object
-    const { success, canceled } = queryString.parse(search);
+    const { success, canceled } = queryString.parse(search); //parses the query string into an object
     
 
 
@@ -50,14 +49,12 @@ export default function PaymentResult() {
                             Authorization: localStorage.getItem('token')
                         }
                     })
-                    console.log('response after updating',response.data)
                     userDispatch({type:'UPDATE_USER_REQUIREMENT',payload:response.data.requirement})
                     const updatePaymentStatus = await axios.put(`/comcraft/checkout/${localStorage.getItem('transactionId')}`,null,{
                         headers:{
                             Authorization: localStorage.getItem('token')
                         }
                     })
-                    console.log('UPDATEDPAYMENT',updatePaymentStatus)
                     setTimeout(()=>{
                         navigateUserToRequirement()
                     },1000)
@@ -77,7 +74,7 @@ export default function PaymentResult() {
                                 Authorization: localStorage.getItem('token')
                             }
                         })
-                        console.log('DELETEDPAYMENT',deletePayment)
+
                         setTimeout(()=>{
                             navigateUserToRequirement()
                         },2000)

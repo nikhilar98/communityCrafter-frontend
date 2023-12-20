@@ -6,15 +6,12 @@ export function ClassDetailsDisplay() {
 
 
     const {classId} = useParams()
-    console.log(classId)
     const classItem = useSelector((state)=>{
         return state.teacherClasses.find(ele=>ele._id==classId)
     })
-    console.log(classItem)
     const category = useSelector((state)=>{
         return state.categories.find(ele=>ele._id==classItem?.categoryId)
     })
-    console.log(category)
     
 
     return (    

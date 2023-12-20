@@ -15,7 +15,6 @@ export default function TutorClassesList() {
 
     const navigate = useNavigate()
 
-    console.log(classes)
 
     return ( 
         <div>

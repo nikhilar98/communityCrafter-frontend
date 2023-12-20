@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react"
-import { userContext } from "../App"
+import { userContext } from "../../App"
 import { useNavigate, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { Button, Card, CardContent, Typography, Modal, Box } from "@mui/material"
-import axios from "../axios/axios"
+import axios from "../../axios/axios"
 import { ToastContainer, toast } from 'react-toastify';
 import { ThemeProvider } from "@emotion/react"
-import theme from "../appTheme"
+import theme from "../../appTheme"
 
 const style = {
     position: 'absolute',
@@ -52,7 +52,6 @@ export default function RequirementDisplay (props){
                                 Authorization : localStorage.getItem('token')
                             }
                         })
-                        console.log('object returned by stripe',stripeResponse.data)
                         localStorage.setItem('transactionId',stripeResponse.data.id)
                         localStorage.setItem('requirement',JSON.stringify(requirement))
                         localStorage.setItem('tutorId',tutorId)

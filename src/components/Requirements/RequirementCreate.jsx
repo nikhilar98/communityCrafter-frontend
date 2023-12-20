@@ -4,11 +4,11 @@ import Button from '@mui/material/Button';
 import { ThemeProvider  } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useContext,  useEffect,  useState } from 'react';
-import { userContext } from '../App';
-import theme from '../appTheme';
+import { userContext } from '../../App';
+import theme from '../../appTheme';
 import { Checkbox, FormControl, FormControlLabel, FormHelperText, FormLabel, InputLabel, ListItemText, MenuItem, OutlinedInput, Radio, RadioGroup, Select } from '@mui/material';
 import { useSelector } from 'react-redux';
-import axios from '../axios/axios';
+import axios from '../../axios/axios';
 import { toast,ToastContainer } from 'react-toastify';
 export default function RequirementCreate (props){ 
     
@@ -120,12 +120,10 @@ export default function RequirementCreate (props){
                     Authorization: localStorage.getItem('token')
                   }
                 })
-                console.log(response.data)
                 resetForm()
                 navigate('/myRequirements')
             }
             catch(err){
-              console.log(err)
               setServerErrors(err.response.data.errors)
             }
 

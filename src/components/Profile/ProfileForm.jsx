@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { userContext } from "../App"
+import { userContext } from "../../App"
 import { ThemeProvider } from "@emotion/react"
 import { Box, Button, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField, CircularProgress, FormHelperText } from "@mui/material"
 import Radio from '@mui/material/Radio';
@@ -8,8 +8,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import theme from "../appTheme"
-import axios from "../axios/axios"
+import theme from "../../appTheme"
+import axios from "../../axios/axios"
 import { Link } from "react-router-dom"
 
 
@@ -27,10 +27,6 @@ export default function ProfileForm() {
     const [formErrors,setFormErrors] = useState({})
     const errors= {} 
     
-    
-    console.log(address)
-    console.log(categoriesSelected)
-    console.log(files)
 
     function runValidationsTeacher(){
         if(!bio){
@@ -51,7 +47,6 @@ export default function ProfileForm() {
        
     }
 
-    console.log('---------------------------------------',serverErrors)
     const categories= useSelector((state)=>{
         return state.categories
     })
@@ -78,8 +73,6 @@ export default function ProfileForm() {
       };
 
 
-    console.log("teachingCategories",teachingCategories)
-
     const handleFileChange = (event) => { 
             const name = event.target.name
             const uploadedFiles = event.target.files
@@ -102,10 +95,8 @@ export default function ProfileForm() {
         e.preventDefault()
         setServerErrors([])
         runValidationsCmHead() 
-        console.log(errors)
 
         if(Object.keys(errors).length==0){
-            console.log('hello')
             setFormErrors({})
 
             setIsSubmittingForm(true) 
@@ -118,19 +109,16 @@ export default function ProfileForm() {
                             Authorization : localStorage.getItem('token')
                         }
                     })
-                    console.log(response.data)
                     setIsSubmittingForm(false)
                     userDispatch({type:'SET_USER_PROFILE',payload:response.data})
             }
             catch(err){
-                    console.log(err)
                     setIsSubmittingForm(false)
                     setServerErrors(err.response.data.errors)
             }
 
      }
      else { 
-        console.log('error block')
         setFormErrors(errors)
      }
         
@@ -170,7 +158,6 @@ export default function ProfileForm() {
                     userDispatch({type:'SET_USER_PROFILE',payload:response.data})
                 }
                 catch(err){
-                    console.log(err)
                     setIsSubmittingForm(false)
                     setServerErrors(err.response.data.errors)
                 }

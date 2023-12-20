@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import axios from "../axios/axios"
+import axios from "../../axios/axios"
 import { Button, Card, CardContent, Pagination, ThemeProvider, Typography } from "@mui/material"
-import theme from "../appTheme"
+import theme from "../../appTheme"
 import { useNavigate } from "react-router-dom"
 
 export default function TutorsListing(){

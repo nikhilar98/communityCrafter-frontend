@@ -1,35 +1,35 @@
 import Carousel from 'react-material-ui-carousel'
-import { Paper, Button } from '@mui/material'
+import { Paper } from '@mui/material'
 
 var items = [
     {  
         imgUrl:"https://porfolio-project-images.s3.ap-south-1.amazonaws.com/carouselImages/21562.jpg",
-        name: "Random Name #1",
-        description: "Probably the most random thing you have ever seen!"
+        name: "image1",
+        description: "image1"
     },
     {  
         imgUrl:"https://porfolio-project-images.s3.ap-south-1.amazonaws.com/carouselImages/3726410.jpg",
-        name: "Random Name #2",
-        description: "Hello World!"
+        name: "image2",
+        description: "image2"
     },
     {  
        imgUrl:"https://porfolio-project-images.s3.ap-south-1.amazonaws.com/carouselImages/5454.jpg",
-       name: "Random Name #2",
-       description: "Hello World!"
+       name: "image3",
+       description: "image3"
    }, {  
        imgUrl:"https://porfolio-project-images.s3.ap-south-1.amazonaws.com/carouselImages/bius_x5ia_210111.jpg",
-       name: "Random Name #2",
-       description: "Hello World!"
+       name: "image4",
+       description: "image4"
    },
    {  
        imgUrl:"https://porfolio-project-images.s3.ap-south-1.amazonaws.com/carouselImages/Building.jpg",
-       name: "Random Name #2",
-       description: "Hello World!"
+       name: "image5",
+       description: "image5"
    },
    {  
        imgUrl:"https://porfolio-project-images.s3.ap-south-1.amazonaws.com/carouselImages/excited-kids-sitting-together-grass-park-looking-away-holding-pinwheel-watching-performance-kids-party-entertainment-concept.jpg",
-       name: "Random Name #2",
-       description: "Hello World!"
+       name: "image6",
+       description: "image6"
    }
 ]
 
