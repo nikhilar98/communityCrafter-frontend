@@ -1,5 +1,5 @@
 import Carousel from 'react-material-ui-carousel'
-import { Paper } from '@mui/material'
+import { Paper, Box } from '@mui/material'
 
 var items = [
     {  
@@ -36,20 +36,48 @@ var items = [
 function Item(props)
 {
     return (
-        <Paper sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-            <img src={props.item.imgUrl} alt={props.item.name} style={{width:'auto',height:'600px'}}/>
+        <Paper
+            elevation={3}
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: '12px',
+                overflow: 'hidden',
+            }}
+        >
+            <Box
+                component="img"
+                src={props.item.imgUrl}
+                alt={props.item.name}
+                sx={{
+                    width: '100%',
+                    height: { xs: '220px', sm: '350px', md: '450px', lg: '550px', xl: '650px' },
+                    objectFit: 'cover',
+                }}
+            />
         </Paper>
     )
 }
+
 export default function CarouselContainer(props)
- {
- 
-     return (
-         <Carousel animation="slide" interval='4000' sx={{width:'1200px',padding:0}}>
-             {
-                 items.map( (item, i) => <Item key={i} item={item} /> )
-             }
-         </Carousel>
-     )
- }
+{
+    return (
+        <Carousel
+            animation="slide"
+            interval={4000}
+            sx={{
+                width: '100%',
+                maxWidth: { xs: '100%', sm: '90%', md: '85%', lg: '1100px', xl: '1400px' },
+                mx: 'auto',
+                padding: 0,
+                borderRadius: '12px',
+            }}
+        >
+            {
+                items.map( (item, i) => <Item key={i} item={item} /> )
+            }
+        </Carousel>
+    )
+}
 
