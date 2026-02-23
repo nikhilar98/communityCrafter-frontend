@@ -1,50 +1,144 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { userContext } from "../../App"
 import { Link } from "react-router-dom"
 import logo from '../../images/cmlogo6.png'
+import {
+    AppBar, Toolbar, IconButton, Drawer, List, ListItem,
+    ListItemButton, ListItemText, Box, Typography, useMediaQuery,
+    useTheme, Divider
+} from "@mui/material"
+import MenuIcon from "@mui/icons-material/Menu"
+import CloseIcon from "@mui/icons-material/Close"
+import PersonIcon from "@mui/icons-material/Person"
 
 export default function Header() {
 
-    const {userState} = useContext(userContext)
+    const { userState, userDispatch } = useContext(userContext)
+    const [drawerOpen, setDrawerOpen] = useState(false)
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"))
 
-    function handleLogout() { 
+    function handleLogout() {
         localStorage.removeItem('token')
-        userDispatch({type:"LOGOUT_USER"})
-      }
+        userDispatch({ type: "LOGOUT_USER" })
+        setDrawerOpen(false)
+    }
 
-    return  ( 
-        <header style={{position:'sticky',top:'0',zIndex:1000}}>
-            <nav className="appNav">
-              {
-                Object.keys(userState.userDetails).length ?
-                  <>
-                    <div style={{display:"flex",alignItems:'center',justifyContent:"center"}}>
-                      <img src={logo} alt="cmlogo" style={{width:"70px"}}/>
-                      <Link to='/' className='Link'>Home</Link>
-                      {['communityHead','teacher'].includes(userState.userDetails.role) && <Link to='/profile' className='Link'>Profile</Link>}
-                      {userState.userDetails.role=='teacher' && <Link to='/requirements' className='Link'>Community Requirements</Link>}
-                      {userState.userDetails.role=='teacher' && <Link to='/classes' className='Link'>My commitments</Link>}
-                      {userState.userDetails.role=='communityHead' && <Link to='/create-requirement' className='Link'>Create requirement</Link>}
-                      {userState.userDetails.role=='communityHead' && <Link to='/myRequirements' className='Link'>My requirements</Link>}
-                      {userState.userDetails.role=='communityHead' && <Link to='/tutors' className='Link'>Tutors</Link>}
-                    </div>
-                    <div style={{display:"flex",alignItems:'center',justifyContent:"center"}}>
-                      <Link to='/' className='Link' onClick={handleLogout}>Logout</Link>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" width='30px'>
-                        <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
-                      </svg>
-                      <span>{userState.userDetails.username}</span>
-                    </div>
-                  </> //user logged in
-                  :
-                  <div style={{display:"flex",alignItems:'center',justifyContent:"center"}}> 
-                    <img src={logo} alt="logo" style={{width:"70px"}}/>
-                    <Link to='/' className='Link'>Home</Link>
-                    <Link to='/register' className='Link'>Register</Link>
-                    <Link to='/login' className='Link'>Login</Link>
-                  </div>  //user logged out
-              }
-            </nav>
+    const isLoggedIn = Object.keys(userState.userDetails).length > 0
+    const role = userState.userDetails?.role
+
+    const getNavLinks = () => {
+        if (!isLoggedIn) {
+            return [
+                { label: "Home", to: "/" },
+                { label: "Register", to: "/register" },
+                { label: "Login", to: "/login" },
+            ]
+        }
+        const links = [{ label: "Home", to: "/" }]
+        if (['communityHead', 'teacher'].includes(role)) links.push({ label: "Profile", to: "/profile" })
+        if (role === 'teacher') links.push({ label: "Community Requirements", to: "/requirements" })
+        if (role === 'teacher') links.push({ label: "My Commitments", to: "/classes" })
+        if (role === 'communityHead') links.push({ label: "Create Requirement", to: "/create-requirement" })
+        if (role === 'communityHead') links.push({ label: "My Requirements", to: "/myRequirements" })
+        if (role === 'communityHead') links.push({ label: "Tutors", to: "/tutors" })
+        return links
+    }
+
+    const navLinks = getNavLinks()
+
+    const drawerContent = (
+        <Box sx={{ width: 280, pt: 1 }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, pb: 1 }}>
+                <img src={logo} alt="logo" style={{ width: "50px" }} />
+                <IconButton onClick={() => setDrawerOpen(false)}>
+                    <CloseIcon />
+                </IconButton>
+            </Box>
+            <Divider />
+            <List>
+                {navLinks.map((link) => (
+                    <ListItem key={link.to} disablePadding>
+                        <ListItemButton
+                            component={Link}
+                            to={link.to}
+                            onClick={() => setDrawerOpen(false)}
+                            sx={{ color: "rgb(51, 102, 122)", fontWeight: 600 }}
+                        >
+                            <ListItemText primary={link.label} primaryTypographyProps={{ fontWeight: 600 }} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+                {isLoggedIn && (
+                    <>
+                        <Divider sx={{ my: 1 }} />
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                component={Link}
+                                to="/"
+                                onClick={handleLogout}
+                                sx={{ color: "rgb(243, 73, 60)", fontWeight: 600 }}
+                            >
+                                <ListItemText primary="Logout" primaryTypographyProps={{ fontWeight: 600 }} />
+                            </ListItemButton>
+                        </ListItem>
+                    </>
+                )}
+            </List>
+        </Box>
+    )
+
+    return (
+        <header style={{ position: 'sticky', top: '0', zIndex: 1000 }}>
+            <AppBar position="static" sx={{ backgroundColor: "rgb(226, 225, 130)", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
+                <Toolbar sx={{ justifyContent: "space-between", minHeight: { xs: 56, md: 64 }, px: { xs: 1, sm: 2, md: 3 } }}>
+                    {/* Left: Logo + Desktop Links */}
+                    <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 0.5, md: 1 } }}>
+                        <Link to="/">
+                            <img src={logo} alt="cmlogo" style={{ width: "55px", display: "block" }} />
+                        </Link>
+                        {!isMobile && navLinks.map((link) => (
+                            <Link key={link.to} to={link.to} className="Link">{link.label}</Link>
+                        ))}
+                    </Box>
+
+                    {/* Right: User info / Hamburger */}
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        {isLoggedIn && !isMobile && (
+                            <>
+                                <Link to='/' className='Link' onClick={handleLogout}>Logout</Link>
+                                <PersonIcon sx={{ color: "rgb(51, 102, 122)", fontSize: 28 }} />
+                                <Typography sx={{ color: "rgb(51, 102, 122)", fontWeight: 600, fontSize: "0.9rem" }}>
+                                    {userState.userDetails.username}
+                                </Typography>
+                            </>
+                        )}
+                        {isLoggedIn && isMobile && (
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                                <PersonIcon sx={{ color: "rgb(51, 102, 122)", fontSize: 24 }} />
+                                <Typography sx={{ color: "rgb(51, 102, 122)", fontWeight: 600, fontSize: "0.8rem", maxWidth: 80, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                    {userState.userDetails.username}
+                                </Typography>
+                            </Box>
+                        )}
+                        {isMobile && (
+                            <IconButton onClick={() => setDrawerOpen(true)} sx={{ color: "rgb(51, 102, 122)" }}>
+                                <MenuIcon />
+                            </IconButton>
+                        )}
+                    </Box>
+                </Toolbar>
+            </AppBar>
+
+            {/* Mobile Drawer */}
+            <Drawer
+                anchor="right"
+                open={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+                PaperProps={{ sx: { borderRadius: "12px 0 0 12px" } }}
+            >
+                {drawerContent}
+            </Drawer>
         </header>
     )
 }
