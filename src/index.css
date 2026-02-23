@@ -1,60 +1,230 @@
-.appNav{ 
-    background-color:rgb(226, 225, 130);
-    margin: 0;
-    padding-right: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* ===== CSS Custom Properties ===== */
+:root {
+  --color-yellow: rgb(226, 225, 130);
+  --color-blue: rgb(51, 102, 122);
+  --color-green: rgb(83, 191, 102);
+  --color-red: rgb(243, 73, 60);
+  --color-bg: #f8f9fa;
+  --color-card: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --max-width: 1200px;
+  --font-heading: 'Google Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Google Sans Text', 'Google Sans', 'Helvetica Neue', Arial, sans-serif;
 }
-.Link{
-    color:rgb(51, 102, 122);
-    text-decoration:none;
-    margin: 0px 30px;
-    font-weight: 600;
+
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-.FooterLink{
-    color:rgb(51, 102, 122);
-    text-decoration:none;
-    margin: 0px 30px;
-    font-weight: 600;
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: #1a1a2e;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
 }
-body{
-    margin:0;
-    font-family: 'Poppins', sans-serif;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  text-rendering: optimizeLegibility;
 }
-.setBackgroundImage{
-    background-image:url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d-02.jpeg");
-    margin: 0;
-    padding: 0;
-    height:100vh;
-    z-index: 1;
-    background-size:cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+p {
+  margin-bottom: 1em;
+  line-height: 1.7;
 }
-.setBackgroundImageHome{
-    background-image:url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d-02.jpeg");
-    margin: 0;
-    padding: 20px;
-    height:1000px;
-    color:whitesmoke;
-    z-index: 1;
-    background-size:cover;
+
+img {
+  max-width: 100%;
+  height: auto;
 }
-.teachingCategoriesList{
-    list-style:none;
+
+/* ===== Navigation ===== */
+.appNav {
+  background-color: var(--color-yellow);
+  margin: 0;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
-fieldset{
-    border-radius: 10px;
+
+.Link {
+  color: var(--color-blue);
+  text-decoration: none;
+  margin: 0 12px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  padding: 6px 4px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
 }
-footer{
-    background-color:rgb(226, 225, 130);
-    padding: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.Link:hover {
+  background-color: rgba(51, 102, 122, 0.1);
 }
-.img-button:hover{
-    cursor: pointer;
+
+.FooterLink {
+  color: var(--color-blue);
+  text-decoration: none;
+  margin: 0 12px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: opacity 0.2s ease;
+}
+.FooterLink:hover {
+  opacity: 0.7;
+}
+
+/* ===== Background Sections ===== */
+.setBackgroundImage {
+  background-image: url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d-02.jpeg");
+  margin: 0;
+  padding: 24px 16px;
+  min-height: 100vh;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.setBackgroundImageHome {
+  background-image: url("https://porfolio-project-images.s3.ap-south-1.amazonaws.com/images/original-d70f56c4e89c6ed97beb46db510c213d-02.jpeg");
+  margin: 0;
+  padding: 40px 24px;
+  min-height: 90vh;
+  color: whitesmoke;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== Utility ===== */
+.teachingCategoriesList {
+  list-style: none;
+}
+
+fieldset {
+  border-radius: var(--radius-md);
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+footer {
+  background-color: var(--color-yellow);
+  padding: 30px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.img-button:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* ===== Main content area ===== */
+main {
+  min-height: calc(100vh - 64px);
+}
+
+/* ===== Responsive Container Helper ===== */
+.responsive-container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ===== Mobile Navigation Drawer ===== */
+.mobile-nav-link {
+  color: var(--color-blue) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  width: 100%;
+  display: block;
+}
+
+/* ===== Responsive Breakpoints ===== */
+
+/* Phone (up to 599px) */
+@media (max-width: 599px) {
+  .appNav {
+    padding: 8px 12px;
+  }
+  .Link {
+    margin: 0 6px;
+    font-size: 0.85rem;
+  }
+  .setBackgroundImageHome {
+    padding: 24px 16px;
+    min-height: auto;
+  }
+  .setBackgroundImage {
+    padding: 16px 12px;
+  }
+  footer {
+    padding: 20px 12px;
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Tablet (600px - 959px) */
+@media (min-width: 600px) and (max-width: 959px) {
+  .setBackgroundImageHome {
+    padding: 32px 24px;
+  }
+}
+
+/* Desktop / Laptop (960px - 1919px) */
+@media (min-width: 960px) {
+  .appNav {
+    padding: 8px 24px;
+  }
+  .Link {
+    margin: 0 16px;
+  }
+}
+
+/* TV / Large screens (1920px+) */
+@media (min-width: 1920px) {
+  :root {
+    --max-width: 1600px;
+  }
+  body {
+    font-size: 18px;
+  }
+  .appNav {
+    padding: 12px 48px;
+  }
+  .Link {
+    font-size: 1.1rem;
+    margin: 0 20px;
+  }
 }
