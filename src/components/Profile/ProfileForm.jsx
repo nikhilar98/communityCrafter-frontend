@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { userContext } from "../../App"
 import { ThemeProvider } from "@emotion/react"
-import { Box, Button, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField, CircularProgress, FormHelperText } from "@mui/material"
+import { Box, Button, Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField, CircularProgress, FormHelperText, Typography, Stack, Container, Paper, Chip, Grid } from "@mui/material"
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -11,6 +11,10 @@ import FormLabel from '@mui/material/FormLabel';
 import theme from "../../appTheme"
 import axios from "../../axios/axios"
 import { Link } from "react-router-dom"
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddIcon from '@mui/icons-material/Add';
+import SaveIcon from '@mui/icons-material/Save';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 
 export default function ProfileForm() { 
@@ -184,110 +188,239 @@ export default function ProfileForm() {
     },[categoriesSelected])  //reason why experience is resetting to empry string when a new category is selected 
 
     return ( 
-        <div>
-            <h1>Create Profile</h1>
         <ThemeProvider theme={theme}>
-            <Box 
-                backgroundColor="white" 
-                borderRadius="20px" 
-                padding="20px" 
-                width="500px" 
+          <Container maxWidth="md" sx={{ py: { xs: 3, md: 5 } }}>
+            <Box
+              sx={{
+                bgcolor: 'background.paper',
+                borderRadius: '20px',
+                overflow: 'hidden',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.12)',
+              }}
+            >
+              {/* Header accent */}
+              <Box sx={{
+                background: 'linear-gradient(135deg, rgb(51, 102, 122) 0%, rgb(80, 140, 165) 100%)',
+                py: 3,
+                px: 3,
+                textAlign: 'center',
+              }}>
+                <AccountCircleIcon sx={{ fontSize: 40, color: 'rgb(226, 225, 130)', mb: 0.5 }} />
+                <Typography variant="h5" sx={{ color: '#fff', fontWeight: 700 }}>
+                  Create Profile
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.75)', mt: 0.5 }}>
+                  {userState.userDetails.role === 'teacher' ? 'Set up your tutor profile' : 'Set up your community profile'}
+                </Typography>
+              </Box>
+
+              {/* Form body */}
+              <Box
                 onSubmit={userState.userDetails.role=='teacher' ? handleSubmitTeacher : handleSubmitCmHead} 
                 component="form" 
-                sx={{'& > :not(style)': { m: 1, width: '25ch' }}} 
                 noValidate 
                 autoComplete="off"
-                
                 encType={userState.userDetails.role=='teacher' ?"multipart/form-data":"application/x-www-form-urlencoded"}
-                >
+                sx={{ px: { xs: 2.5, sm: 4 }, py: 3.5 }}
+              >
+                <Stack spacing={3}>
+                  {/* Bio section for teachers */}
+                  {userState.userDetails.role=='teacher' && (
+                    <TextField
+                      color="customBlue"
+                      name="bio"
+                      id="bio"
+                      label="Tell us about yourself"
+                      variant="outlined"
+                      type="text"
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                      multiline
+                      rows={5}
+                      error={Boolean(formErrors.bio) || Boolean(serverErrors.find(ele=>ele.path=='bio'))}
+                      helperText={(formErrors.bio && formErrors.bio) || (serverErrors.find(ele=>ele.path=='bio') && serverErrors.find(ele=>ele.path=='bio').msg) || "Write a brief bio about your teaching experience"}
+                      fullWidth
+                    />
+                  )}
 
-                {   userState.userDetails.role=='teacher' && 
-                
-                (<>
-                <TextField color="customBlue" name="bio" id="bio" label="bio" variant="outlined" type='text' value={bio} onChange={(e)=>{setBio(e.target.value)}} multiline rows={6} error={Boolean(formErrors.bio)|| Boolean(serverErrors.find(ele=>ele.path=='bio'))} helperText={(formErrors.bio && formErrors.bio)||(serverErrors.find(ele=>ele.path=='bio') && serverErrors.find(ele=>ele.path=='bio').msg)||"Bio"}/><br/></>)}
-
-                <FormControl color="customBlue" variant="standard" error={Boolean(formErrors.address)|| Boolean(serverErrors.find(ele=>ele.path=='address'))}>
-                            <FormLabel id="addresses">Select an address</FormLabel>
-                            <RadioGroup
-                            aria-labelledby="addresses"
-                            row
-                            value={address}
-                            onChange={(e)=>{setAddress(e.target.value)}}
-                            id="address"
-                            name="address"
-                            >
-                            {
-                               userState.userAddresses.map(ele=>{
-                                    return <div key={ele._id}>
-                                        <FormControlLabel value={ele._id} control={<Radio />} label={`${ele.building}, ${ele.locality}, ${ele.city}, ${ele.state}, ${ele.country} - ${ele.pincode}`}/><hr/>
-                                        </div>
-                                })
-                            }
-                            </RadioGroup>
-                            <FormHelperText>{(formErrors.address && formErrors.address)||(serverErrors.find(ele=>ele.path=='address') && serverErrors.find(ele=>ele.path=='address').msg)}</FormHelperText>
-                </FormControl><br/>
-                or <Link to='/address'>Create new Address</Link><br/><br/><br/>
-
-                {userState.userDetails.role=='teacher' && (
-                    <>
-                    <FormControl sx={{ m: 1, width: 300 }} error={Boolean(formErrors.categoriesSelected)}>
-                    <InputLabel id="category-multiple-checkbox">Select a teaching field</InputLabel>
-                        <Select
-                        labelId="category-multiple-checkbox"
-                        id="category-multiple-checkbox"
-                        multiple
-                        value={categoriesSelected}
-                        onChange={handleChange}
-                        input={<OutlinedInput label="Select a teaching field" />}
-                        renderValue={(selected) =>{
-                            // Map selected IDs to their corresponding names
-                            const selectedNames = categories
-                            .filter((ele) => selected.indexOf(ele._id) > -1)
-                            .map((ele) => ele.name);
-                    
-                            return selectedNames.join(', ');
-                        }}
-                        MenuProps={MenuProps}
-                        >
-                        {categories.map((ele) => (
-                            <MenuItem key={ele._id} value={ele._id}>
-                                <Checkbox checked={categoriesSelected.indexOf(ele._id) > -1} />
-                                <ListItemText primary={ele.name} />
-                            </MenuItem>
+                  {/* Address selection */}
+                  <Paper elevation={0} sx={{ p: 2.5, border: '1px solid #e0e0e0', borderRadius: '12px' }}>
+                    <FormControl 
+                      color="customBlue" 
+                      variant="standard" 
+                      error={Boolean(formErrors.address) || Boolean(serverErrors.find(ele=>ele.path=='address'))}
+                      sx={{ width: '100%' }}
+                    >
+                      <FormLabel sx={{ fontWeight: 600, color: 'text.primary', mb: 1.5 }}>
+                        Select an address
+                      </FormLabel>
+                      <RadioGroup
+                        aria-labelledby="addresses"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        id="address"
+                        name="address"
+                      >
+                        {userState.userAddresses.map(ele => (
+                          <Paper
+                            key={ele._id}
+                            elevation={0}
+                            sx={{
+                              mb: 1,
+                              p: 1.5,
+                              borderRadius: '10px',
+                              border: address === ele._id ? '2px solid rgb(51, 102, 122)' : '1px solid #e8e8e8',
+                              bgcolor: address === ele._id ? 'rgba(51, 102, 122, 0.04)' : 'transparent',
+                              transition: 'all 0.2s ease',
+                              cursor: 'pointer',
+                              '&:hover': { borderColor: 'rgb(51, 102, 122)', bgcolor: 'rgba(51, 102, 122, 0.02)' },
+                            }}
+                            onClick={() => setAddress(ele._id)}
+                          >
+                            <FormControlLabel
+                              value={ele._id}
+                              control={<Radio size="small" />}
+                              label={
+                                <Typography variant="body2" sx={{ lineHeight: 1.5 }}>
+                                  {`${ele.building}, ${ele.locality}, ${ele.city}, ${ele.state}, ${ele.country} - ${ele.pincode}`}
+                                </Typography>
+                              }
+                              sx={{ m: 0, width: '100%' }}
+                            />
+                          </Paper>
                         ))}
+                      </RadioGroup>
+                      <FormHelperText>{(formErrors.address && formErrors.address) || (serverErrors.find(ele=>ele.path=='address') && serverErrors.find(ele=>ele.path=='address').msg)}</FormHelperText>
+                    </FormControl>
+                    <Box sx={{ mt: 1.5 }}>
+                      <Button
+                        component={Link}
+                        to="/address"
+                        variant="outlined"
+                        size="small"
+                        startIcon={<AddIcon />}
+                        sx={{
+                          borderColor: 'rgb(51, 102, 122)',
+                          color: 'rgb(51, 102, 122)',
+                          borderRadius: '8px',
+                          '&:hover': { borderColor: 'rgb(35, 75, 92)', bgcolor: 'rgba(51, 102, 122, 0.04)' },
+                        }}
+                      >
+                        Create new Address
+                      </Button>
+                    </Box>
+                  </Paper>
+
+                  {/* Teaching categories for teachers */}
+                  {userState.userDetails.role=='teacher' && (
+                    <>
+                      <FormControl sx={{ width: '100%' }} error={Boolean(formErrors.categoriesSelected)}>
+                        <InputLabel id="category-multiple-checkbox">Select teaching fields</InputLabel>
+                        <Select
+                          labelId="category-multiple-checkbox"
+                          id="category-multiple-checkbox"
+                          multiple
+                          value={categoriesSelected}
+                          onChange={handleChange}
+                          input={<OutlinedInput label="Select teaching fields" />}
+                          renderValue={(selected) => {
+                            const selectedNames = categories
+                              .filter((ele) => selected.indexOf(ele._id) > -1)
+                              .map((ele) => ele.name);
+                            return (
+                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                {selectedNames.map((name) => (
+                                  <Chip key={name} label={name} size="small" sx={{ bgcolor: 'rgba(51, 102, 122, 0.1)', color: 'rgb(51, 102, 122)', fontWeight: 500 }} />
+                                ))}
+                              </Box>
+                            );
+                          }}
+                          MenuProps={MenuProps}
+                        >
+                          {categories.map((ele) => (
+                            <MenuItem key={ele._id} value={ele._id}>
+                              <Checkbox checked={categoriesSelected.indexOf(ele._id) > -1} />
+                              <ListItemText primary={ele.name} />
+                            </MenuItem>
+                          ))}
                         </Select>
-                    <FormHelperText>{(formErrors.categoriesSelected && formErrors.categoriesSelected)}</FormHelperText>
-                </FormControl><br/>
+                        <FormHelperText>{(formErrors.categoriesSelected && formErrors.categoriesSelected)}</FormHelperText>
+                      </FormControl>
 
-                {
-                    categoriesSelected.map((ele,i)=>{
-                        return <fieldset key={i} >
-                                <h3>{categories.find(cat=>cat._id==ele).name}</h3>
-                                <label htmlFor={`${ele}_exp`}>Add experience (in years)</label>
-                                
-                                <input type="number" id={`${ele}_exp`} 
-                                    value={teachingCategories.find(el=>el.categoryId==ele)?.experience} 
-                                    onChange={(e)=>{handleExperienceChange(e,ele)}}/>
-                                <br/>
+                      {/* Category detail cards */}
+                      {categoriesSelected.map((ele, i) => (
+                        <Paper
+                          key={i}
+                          elevation={0}
+                          sx={{
+                            p: 2.5,
+                            border: '1px solid #e0e0e0',
+                            borderRadius: '12px',
+                            bgcolor: 'rgba(248, 249, 250, 0.5)',
+                          }}
+                        >
+                          <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2, color: 'rgb(51, 102, 122)' }}>
+                            {categories.find(cat => cat._id == ele)?.name}
+                          </Typography>
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                              <TextField
+                                label="Experience (years)"
+                                type="number"
+                                size="small"
+                                fullWidth
+                                value={teachingCategories.find(el => el.categoryId == ele)?.experience}
+                                onChange={(e) => handleExperienceChange(e, ele)}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                              <Button
+                                variant="outlined"
+                                component="label"
+                                startIcon={<UploadFileIcon />}
+                                fullWidth
+                                sx={{
+                                  py: 1,
+                                  borderColor: '#ccc',
+                                  color: 'text.secondary',
+                                  borderStyle: 'dashed',
+                                  '&:hover': { borderColor: 'rgb(51, 102, 122)', color: 'rgb(51, 102, 122)', bgcolor: 'rgba(51, 102, 122, 0.02)' },
+                                }}
+                              >
+                                Upload Certificates
+                                <input type="file" name={ele} multiple hidden onChange={handleFileChange} />
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      ))}
 
-                                <label htmlFor={`${ele}_certificates`}>Add certificates</label>
-                                <input type="file" id={`${ele}_certificates`} name={ele} multiple value={undefined} onChange={handleFileChange} />
-                        </fieldset>
-                    })
-                }
-                    <span style={{color:'red'}}>{serverErrors.find(ele=>ele.path=='teachingCategories') && serverErrors.find(ele=>ele.path=='teachingCategories').msg}</span>
-                </>
-                )}
+                      {serverErrors.find(ele => ele.path == 'teachingCategories') && (
+                        <Typography variant="body2" sx={{ color: 'rgb(243, 73, 60)' }}>
+                          {serverErrors.find(ele => ele.path == 'teachingCategories').msg}
+                        </Typography>
+                      )}
+                    </>
+                  )}
 
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                    <Button id="save_profile" variant="contained" size='large' type='submit' color="customYellow" disabled={isSubmittingForm}>Save Profile</Button>
-                    {isSubmittingForm && <CircularProgress  size={50}/>}
-                </div>
-                
-                
+                  {/* Submit */}
+                  <Button
+                    id="save_profile"
+                    variant="contained"
+                    size="large"
+                    type="submit"
+                    color="customYellow"
+                    disabled={isSubmittingForm}
+                    fullWidth
+                    startIcon={isSubmittingForm ? null : <SaveIcon />}
+                    sx={{ py: 1.5, fontSize: '1rem', mt: 1 }}
+                  >
+                    {isSubmittingForm ? <CircularProgress size={24} sx={{ color: 'rgb(51, 102, 122)' }} /> : 'Save Profile'}
+                  </Button>
+                </Stack>
+              </Box>
             </Box>
-           
-      </ThemeProvider>
-        </div>
+          </Container>
+        </ThemeProvider>
     )
 }
