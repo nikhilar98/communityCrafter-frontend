@@ -13,6 +13,12 @@ import theme from '../../appTheme';
 import startSetClasses from '../../actions/classesActions';
 import { useDispatch } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Typography, Stack, Divider, InputAdornment, IconButton } from '@mui/material';
+import EmailIcon from '@mui/icons-material/Email';
+import LockIcon from '@mui/icons-material/Lock';
+import LoginIcon from '@mui/icons-material/Login';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export default function LoginForm() {
 
@@ -21,6 +27,7 @@ export default function LoginForm() {
     const {userDispatch} = useContext(userContext)
     const reduxDispatch = useDispatch()
     const [isLoading,setIsLoading] = useState(false)
+    const [showPassword,setShowPassword] = useState(false)
     const notify = (msg) => toast.error(msg);
 
     useEffect(()=>{
@@ -90,18 +97,115 @@ export default function LoginForm() {
     return (
       <ThemeProvider theme={theme}>
         <ToastContainer/>
-        <Box backgroundColor="white" borderRadius="20px" padding="20px" width="500px" onSubmit={formik.handleSubmit} component="form" sx={{'& > :not(style)': { m: 1, width: '25ch' }}} noValidate autoComplete="on">
-          <h2>Login</h2>
+        <Box
+          onSubmit={formik.handleSubmit}
+          component="form"
+          noValidate
+          autoComplete="on"
+          sx={{
+            width: { xs: '92vw', sm: '420px', md: '460px' },
+            maxWidth: '460px',
+            bgcolor: 'background.paper',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+          }}
+        >
+          {/* Header accent bar */}
+          <Box sx={{
+            background: 'linear-gradient(135deg, rgb(51, 102, 122) 0%, rgb(80, 140, 165) 100%)',
+            py: 3.5,
+            px: 3,
+            textAlign: 'center',
+          }}>
+            <LoginIcon sx={{ fontSize: 40, color: 'rgb(226, 225, 130)', mb: 1 }} />
+            <Typography variant="h5" sx={{ color: '#fff', fontWeight: 700, letterSpacing: '0.5px' }}>
+              Welcome Back
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.75)', mt: 0.5 }}>
+              Sign in to your account
+            </Typography>
+          </Box>
 
-          <TextField color="customBlue" name="email" id="email" label={formik.errors.email || serverErrors.find(ele=>ele.path=='email') ? "Error":"email"} variant="filled" type='text' value={formik.email} onChange={formik.handleChange} error={Boolean(formik.errors.email)|| Boolean(serverErrors.find(ele=>ele.path=='email'))} helperText={(formik.errors.email && formik.errors.email) || (serverErrors.find(ele=>ele.path=='email') && serverErrors.find(ele=>ele.path=='email').msg)}/><br/>
+          {/* Form body */}
+          <Stack spacing={2.5} sx={{ px: { xs: 2.5, sm: 4 }, py: 4 }}>
+            <TextField
+              color="customBlue"
+              name="email"
+              id="email"
+              label="Email Address"
+              variant="outlined"
+              type="email"
+              value={formik.email}
+              onChange={formik.handleChange}
+              error={Boolean(formik.errors.email) || Boolean(serverErrors.find(ele=>ele.path=='email'))}
+              helperText={(formik.errors.email && formik.errors.email) || (serverErrors.find(ele=>ele.path=='email') && serverErrors.find(ele=>ele.path=='email').msg)}
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailIcon sx={{ color: 'rgb(51, 102, 122)', opacity: 0.7 }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
-          <TextField color="customBlue" name="password" id="password" label={formik.errors.password || serverErrors.find(ele=>ele.path=='password') ? "Error":"password"} variant="filled" type='password' value={formik.password} onChange={formik.handleChange} error={Boolean(formik.errors.password)|| Boolean(serverErrors.find(ele=>ele.path=='password'))} helperText={(formik.errors.password && formik.errors.password) || (serverErrors.find(ele=>ele.path=='password') && serverErrors.find(ele=>ele.path=='password').msg)}/><br/>
+            <TextField
+              color="customBlue"
+              name="password"
+              id="password"
+              label="Password"
+              variant="outlined"
+              type={showPassword ? 'text' : 'password'}
+              value={formik.password}
+              onChange={formik.handleChange}
+              error={Boolean(formik.errors.password) || Boolean(serverErrors.find(ele=>ele.path=='password'))}
+              helperText={(formik.errors.password && formik.errors.password) || (serverErrors.find(ele=>ele.path=='password') && serverErrors.find(ele=>ele.path=='password').msg)}
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockIcon sx={{ color: 'rgb(51, 102, 122)', opacity: 0.7 }} />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" size="small">
+                      {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
           
-          <div style={{display:'flex',alignItems:'center',gap:'20px'}}>
-            <Button id="submit" variant="contained" size='large' type='submit' color="customYellow">Login</Button>
-            {isLoading && <CircularProgress color="success" />}
-          </div>
-          <p>New User ? <Link to='/register'>Register</Link></p>
+            <Button
+              id="submit"
+              variant="contained"
+              size="large"
+              type="submit"
+              color="customYellow"
+              disabled={isLoading}
+              fullWidth
+              sx={{
+                py: 1.5,
+                fontSize: '1rem',
+                position: 'relative',
+              }}
+            >
+              {isLoading ? <CircularProgress size={24} sx={{ color: 'rgb(51, 102, 122)' }} /> : 'Login'}
+            </Button>
+
+            <Divider sx={{ my: 0.5, '&::before, &::after': { borderColor: 'rgba(0,0,0,0.08)' } }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', px: 1 }}>or</Typography>
+            </Divider>
+
+            <Typography variant="body2" sx={{ textAlign: 'center', color: 'text.secondary' }}>
+              New User?{' '}
+              <Link to='/register' style={{ color: 'rgb(51, 102, 122)', fontWeight: 600, textDecoration: 'none' }}>
+                Create an account
+              </Link>
+            </Typography>
+          </Stack>
         </Box>
       </ThemeProvider>
     );
